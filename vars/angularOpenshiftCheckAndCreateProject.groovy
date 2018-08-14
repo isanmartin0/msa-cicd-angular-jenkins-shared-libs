@@ -74,7 +74,7 @@ def call(body) {
 
         sh "oc project ${projectName}"
 
-        withCredentials([string(credentialsId: "${config.artifactoryNPMAuth}", variable: 'ARTIFACTORY_NPM_AUTH'), string(credentialsId: "${config.artifactoryNPMEmailAuth}", variable: 'ARTIFACTORY_NPM_EMAIL_AUTH'), string(credentialsId: "${config.artCredential}", variable: 'ARTIFACTORY_TOKEN')]) {
+        withCredentials([string(credentialsId: "${config.artCredential}", variable: 'ARTIFACTORY_TOKEN')]) {
             sh "oc process -n ${projectName} -f ${config.template} BRANCH_NAME=${env.BRANCH_NAME} BRANCH_NAME_HY=${config.branchHY} BRANCH_NAME_HY_CONTAINER_IMAGE=${branchNameContainerImage} PROJECT=${project} DOCKER_REGISTRY=${config.dockerRegistry} SOURCE_REPOSITORY_URL=${config.sourceRepositoryURL} SOURCE_REPOSITORY_BRANCH=${config.sourceRepositoryBranch} envLabel=${config.environment} HOST_NAME=${hostname} MIN_POD_REPLICAS=${minimumPodReplicas} MAX_POD_REPLICAS=${maximumPodReplicas} NODEJS_PACKAGE_TAG=${config.package_tag} NODEJS_PACKAGE_TARBALL=${config.package_tarball} ARTIFACTORY_NPM_REPO=${config.artifactoryNPMRepo} CONTEXT_DIR=${config.contextDir} NGINX_VERSION=${config.nginxVersion} ARTIFACTORY_REPOSITORY_TYPE=${config.artifactoryRepositoryTypeOpenshift} ARTIFACTORY_GENERIC_REPO=${config.artifactoryGenericRepo} ARTIFACTORY_TOKEN=${ARTIFACTORY_TOKEN} | oc create -n ${projectName} -f -"
         }
 
