@@ -38,7 +38,8 @@ class AngularConstants {
     static final NPM_MIRROR_ENVIRONMENT_VARIABLE = 'NPM_MIRROR'
     static final DEBUG_PORT_ENVIRONMENT_VARIABLE = 'DEBUG_PORT'
 
-
+    static final ARTIFACTORY_REPOSITORY_NPM_TYPE = 'NPM'
+    static final ARTIFACTORY_REPOSITORY_GENEROC_TYPE = 'Generic'
 
 
 }
