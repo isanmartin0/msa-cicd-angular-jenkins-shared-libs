@@ -29,7 +29,6 @@ def call(body) {
     //def artifactUrl = "${config.repoUrl}/${packageJSON.name}/${version}/${packageJSON.name}-${version}.tgz"
     def buildEnvVars = []
 
-
     echo "buildEnvVars.size: ${buildEnvVars.size()}"
 
 
