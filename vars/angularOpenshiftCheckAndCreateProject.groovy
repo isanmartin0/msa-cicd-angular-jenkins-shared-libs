@@ -18,7 +18,7 @@ def call(body) {
     echo "config.sourceRepositoryURL: ${config.sourceRepositoryURL}"
     echo "config.sourceRepositoryBranch: ${config.sourceRepositoryBranch}"
     echo "config.environment: ${config.environment}"
-    echo "config.package_tag: ${config.package_tag}"
+    echo "config.package_name: ${config.package_name}"
     echo "config.package_tarball: ${config.package_tarball}"
     echo "config.artifactoryNPMRepo: ${config.artifactoryNPMRepo}"
     echo "config.contextDir: ${config.contextDir}"
@@ -75,7 +75,7 @@ def call(body) {
         sh "oc project ${projectName}"
 
         withCredentials([string(credentialsId: "${config.artCredential}", variable: 'ARTIFACTORY_TOKEN')]) {
-            sh "oc process -n ${projectName} -f ${config.template} BRANCH_NAME=${env.BRANCH_NAME} BRANCH_NAME_HY=${config.branchHY} BRANCH_NAME_HY_CONTAINER_IMAGE=${branchNameContainerImage} PROJECT=${project} DOCKER_REGISTRY=${config.dockerRegistry} SOURCE_REPOSITORY_URL=${config.sourceRepositoryURL} SOURCE_REPOSITORY_BRANCH=${config.sourceRepositoryBranch} envLabel=${config.environment} HOST_NAME=${hostname} MIN_POD_REPLICAS=${minimumPodReplicas} MAX_POD_REPLICAS=${maximumPodReplicas} NODEJS_PACKAGE_TAG=${config.package_tag} NODEJS_PACKAGE_TARBALL=${config.package_tarball} ARTIFACTORY_NPM_REPO=${config.artifactoryNPMRepo} CONTEXT_DIR=${config.contextDir} NGINX_VERSION=${config.nginxVersion} ARTIFACTORY_REPOSITORY_TYPE=${config.artifactoryRepositoryTypeOpenshift} ARTIFACTORY_GENERIC_REPO=${config.artifactoryGenericRepo} ARTIFACTORY_TOKEN=${ARTIFACTORY_TOKEN} | oc create -n ${projectName} -f -"
+            sh "oc process -n ${projectName} -f ${config.template} BRANCH_NAME=${env.BRANCH_NAME} BRANCH_NAME_HY=${config.branchHY} BRANCH_NAME_HY_CONTAINER_IMAGE=${branchNameContainerImage} PROJECT=${project} DOCKER_REGISTRY=${config.dockerRegistry} SOURCE_REPOSITORY_URL=${config.sourceRepositoryURL} SOURCE_REPOSITORY_BRANCH=${config.sourceRepositoryBranch} envLabel=${config.environment} HOST_NAME=${hostname} MIN_POD_REPLICAS=${minimumPodReplicas} MAX_POD_REPLICAS=${maximumPodReplicas} ANGULAR_PACKAGE_NAME=${config.package_name} ANGULAR_PACKAGE_TARBALL=${config.package_tarball} ARTIFACTORY_NPM_REPO=${config.artifactoryNPMRepo} CONTEXT_DIR=${config.contextDir} NGINX_VERSION=${config.nginxVersion} ARTIFACTORY_REPOSITORY_TYPE=${config.artifactoryRepositoryTypeOpenshift} ARTIFACTORY_GENERIC_REPO=${config.artifactoryGenericRepo} ARTIFACTORY_TOKEN=${ARTIFACTORY_TOKEN} | oc create -n ${projectName} -f -"
         }
 
         echo "Resources (is,bc,dc,svc,route) created under OCP namespace ${projectName}"
