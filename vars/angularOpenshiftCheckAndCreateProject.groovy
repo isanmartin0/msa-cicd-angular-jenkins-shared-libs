@@ -60,9 +60,8 @@ def call(body) {
     try {
         sh "oc project ${projectName}"
 
-        sh "oc env dc/angular-app environmentVariable1=value1 -n angular-app-develop"
+        sh "oc get dc"
 
-        sh "oc env dc/${project} environmentVariable1=value1 -n ${projectName}"
     } catch (err) {
 
         println err
