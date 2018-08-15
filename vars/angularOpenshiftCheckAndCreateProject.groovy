@@ -60,7 +60,7 @@ def call(body) {
     try {
         sh "oc project ${projectName}"
 
-        sh "oc get dc"
+        sh "oc get all"
 
     } catch (err) {
 
