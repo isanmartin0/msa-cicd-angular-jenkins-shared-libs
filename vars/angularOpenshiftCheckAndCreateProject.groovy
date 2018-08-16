@@ -82,5 +82,7 @@ def call(body) {
         echo "Resources (is,bc,dc,svc,route) created under OCP namespace ${projectName}"
 
         sh "oc get all"
+
+        sh "oc version"
     }
 }
