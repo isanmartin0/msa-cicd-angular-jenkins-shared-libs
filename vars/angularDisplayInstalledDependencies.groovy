@@ -111,7 +111,7 @@ def call(body) {
             showLocalInstalledDependenciesTypeFlags = " --only=${showLocalInstalledDependenciesType}"
         }
 
-        //try {
+        try {
             echo "List local dependencies ${showLocalInstalledDependenciesDepthFlags} ${showLocalInstalledDependenciesTypeFlags}"
 /*
             def sout = new StringBuilder(), serr = new StringBuilder()
@@ -122,9 +122,11 @@ def call(body) {
             echo "err> ${serr}"
  */
             sh "npm list ${showLocalInstalledDependenciesDepthFlags} ${showLocalInstalledDependenciesTypeFlags}"
-        //} catch(err) {
-            //echo 'ERROR. There is an error retrieving NPM local dependencies'
-        //}
+        } catch(err) {
+            echo 'ERROR. There is an error retrieving NPM local dependencies'
+            def exc_message = exc.message
+            echo "${exc_message}"
+        }
 
     }
 
