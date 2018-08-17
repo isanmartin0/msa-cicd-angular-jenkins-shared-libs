@@ -112,7 +112,7 @@ def call(body) {
         }
 
         //try {
-            echo "List local dependencies ${showGlobalInstalledDependenciesDepthFlags}"
+            echo "List local dependencies ${showLocalInstalledDependenciesDepthFlags} ${showLocalInstalledDependenciesTypeFlags}"
 
             def sout = new StringBuilder(), serr = new StringBuilder()
             def proc = "npm list ${showLocalInstalledDependenciesDepthFlags} ${showLocalInstalledDependenciesTypeFlags}".execute()
