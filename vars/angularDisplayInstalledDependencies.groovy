@@ -113,14 +113,15 @@ def call(body) {
 
         //try {
             echo "List local dependencies ${showLocalInstalledDependenciesDepthFlags} ${showLocalInstalledDependenciesTypeFlags}"
-
+/*
             def sout = new StringBuilder(), serr = new StringBuilder()
             def proc = "npm list ${showLocalInstalledDependenciesDepthFlags} ${showLocalInstalledDependenciesTypeFlags}".execute()
             proc.consumeProcessOutput(sout, serr)
             proc.waitForOrKill(30000)
             echo "out> ${sout}"
             echo "err> ${serr}"
-            //sh "npm list ${showLocalInstalledDependenciesDepthFlags} ${showLocalInstalledDependenciesTypeFlags}"
+ */
+            sh "npm list ${showLocalInstalledDependenciesDepthFlags} ${showLocalInstalledDependenciesTypeFlags}"
         //} catch(err) {
             //echo 'ERROR. There is an error retrieving NPM local dependencies'
         //}
