@@ -57,7 +57,7 @@ def call(body) {
 
         try {
             echo "List global dependencies ${showGlobalInstalledDependenciesDepthFlags}"
-            //sh "npm -g list ${showGlobalInstalledDependenciesDepthFlags}"
+            sh "npm -g list ${showGlobalInstalledDependenciesDepthFlags}"
         } catch(err) {
             echo 'ERROR. There is an error retrieving NPM global dependencies'
         }
