@@ -51,7 +51,7 @@ def call(body) {
             }
         }
 
-        if (showGlobalInstalledDependenciesDepth >=0) {
+        if (showGlobalInstalledDependenciesDepth >= 0) {
             showGlobalInstalledDependenciesDepthFlags = " --depth=${showGlobalInstalledDependenciesDepth}"
         }
 
@@ -64,7 +64,7 @@ def call(body) {
 
     }
 
-    /*
+
     if (showLocalInstalledDependencies) {
 
         Boolean showLocalInstalledDependenciesDepthLimit = false
@@ -75,23 +75,18 @@ def call(body) {
         String showLocalInstalledDependenciesTypeFlags = ""
 
 
-        echo "params.installedDependencies.showLocalInstalledDependenciesDepthLimit: ${params.installedDependencies.showLocalInstalledDependenciesDepthLimit}"
-        echo "params.installedDependencies.showLocalInstalledDependenciesDepth: ${params.installedDependencies.showLocalInstalledDependenciesDepth}"
-        echo "params.installedDependencies.showLocalInstalledDependenciesOnlyType: ${params.installedDependencies.showLocalInstalledDependenciesOnlyType}"
-        echo "params.installedDependencies.showLocalInstalledDependenciesType: ${params.installedDependencies.showLocalInstalledDependenciesType}"
-
-        if (params.installedDependencies.showLocalInstalledDependenciesDepthLimit) {
-            showLocalInstalledDependenciesDepthLimit = params.installedDependencies.showLocalInstalledDependenciesDepthLimit.toBoolean()
+        if (config.showLocalInstalledDependenciesDepthLimit) {
+            showLocalInstalledDependenciesDepthLimit = config.showLocalInstalledDependenciesDepthLimit.toBoolean()
         }
 
-        if (params.installedDependencies.showLocalInstalledDependenciesOnlyType) {
-            showLocalInstalledDependenciesOnlyType = params.installedDependencies.showLocalInstalledDependenciesOnlyType.toBoolean()
+        if (config.showLocalInstalledDependenciesOnlyType) {
+            showLocalInstalledDependenciesOnlyType = config.showLocalInstalledDependenciesOnlyType.toBoolean()
         }
 
 
         if (showLocalInstalledDependenciesDepthLimit) {
 
-            String showLocalInstalledDependenciesDepthParam = params.installedDependencies.showLocalInstalledDependenciesDepth
+            String showLocalInstalledDependenciesDepthParam = config.showLocalInstalledDependenciesDepth
 
             if (showLocalInstalledDependenciesDepthParam != null && showLocalInstalledDependenciesDepthParam.isInteger()) {
                 showLocalInstalledDependenciesDepth = showLocalInstalledDependenciesDepthParam as Integer
@@ -103,8 +98,8 @@ def call(body) {
         }
 
         if (showLocalInstalledDependenciesOnlyType) {
-            if (params.installedDependencies.showLocalInstalledDependenciesType) {
-                showLocalInstalledDependenciesType = params.installedDependencies.showLocalInstalledDependenciesType
+            if (config.showLocalInstalledDependenciesType) {
+                showLocalInstalledDependenciesType = config.showLocalInstalledDependenciesType
                 showLocalInstalledDependenciesType = showLocalInstalledDependenciesType.trim()
             }
 
@@ -123,7 +118,6 @@ def call(body) {
             echo 'ERROR. There is an error retrieving NPM local dependencies'
         }
 
-
     }
-    */
+
 }
