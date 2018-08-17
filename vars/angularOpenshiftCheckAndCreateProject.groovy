@@ -57,10 +57,15 @@ def call(body) {
         sh "oc login ${config.cloudURL} -u ${USERNAME} -p ${PASSWORD} --insecure-skip-tls-verify=true"
     }
 
+    def openshiftProjectCreated = false
     try {
         sh "oc project ${projectName}"
 
-        sh "oc get all"
+        echo "oc version"
+        sh "oc version"
+
+        echo "Get project ${projectName} Openshift created objects"
+        sh "oc get all -n ${projectName}"
 
     } catch (err) {
 
@@ -81,19 +86,18 @@ def call(body) {
 
         echo "Resources (is,bc,dc,svc,route) created under OCP namespace ${projectName}"
 
+        echo "oc version"
         sh "oc version"
 
-        sh "oc get all"
-
-        echo "****************"
-
+        echo "Get project ${projectName} Openshift created objects"
         sh "oc get all -n ${projectName}"
 
-        echo "****************"
-        sh "oc project ${projectName}"
-        sh "oc get all -n ${projectName}"
+        openshiftProjectCreated = true
 
+    }
 
-
+    if (!openshiftProjectCreated) {
+        echo "The Openshift project ${projectName} exists."
+        //Set environment
     }
 }
