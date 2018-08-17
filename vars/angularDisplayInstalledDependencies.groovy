@@ -122,7 +122,7 @@ def call(body) {
             echo "err> ${serr}"
  */
             sh "npm list ${showLocalInstalledDependenciesDepthFlags} ${showLocalInstalledDependenciesTypeFlags}"
-        } catch(err) {
+        } catch(exc) {
             echo 'ERROR. There is an error retrieving NPM local dependencies'
             def exc_message = exc.message
             echo "${exc_message}"
