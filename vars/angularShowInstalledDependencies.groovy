@@ -11,16 +11,15 @@ def call(body) {
 
 
     echo "angularShowInstalledDependencies parameters\n" +
-            "-------------------------------------------"
-
-    echo "config.showGlobalInstalledDependencies: ${config.showGlobalInstalledDependencies}"
-    echo "config.showGlobalInstalledDependenciesDepthLimit: ${config.showGlobalInstalledDependenciesDepthLimit}"
-    echo "config.showGlobalInstalledDependenciesDepth: ${config.showGlobalInstalledDependenciesDepth}"
-    echo "config.showLocalInstalledDependencies: ${config.showLocalInstalledDependencies}"
-    echo "config.showLocalInstalledDependenciesDepthLimit: ${config.showLocalInstalledDependenciesDepthLimit}"
-    echo "config.showLocalInstalledDependenciesDepth: ${config.showLocalInstalledDependenciesDepth}"
-    echo "config.showLocalInstalledDependenciesOnlyType: ${config.showLocalInstalledDependenciesOnlyType}"
-    echo "config.showLocalInstalledDependenciesType: ${config.showLocalInstalledDependenciesType}"
+            "-------------------------------------------\n" +
+            "config.showGlobalInstalledDependencies: ${config.showGlobalInstalledDependencies} \n" +
+            "config.showGlobalInstalledDependenciesDepthLimit: ${config.showGlobalInstalledDependenciesDepthLimit} \n" +
+            "config.showGlobalInstalledDependenciesDepth: ${config.showGlobalInstalledDependenciesDepth} \n" +
+            "config.showLocalInstalledDependencies: ${config.showLocalInstalledDependencies} \n" +
+            "config.showLocalInstalledDependenciesDepthLimit: ${config.showLocalInstalledDependenciesDepthLimit} \n" +
+            "config.showLocalInstalledDependenciesDepth: ${config.showLocalInstalledDependenciesDepth} \n" +
+            "config.showLocalInstalledDependenciesOnlyType: ${config.showLocalInstalledDependenciesOnlyType} \n" +
+            "config.showLocalInstalledDependenciesType: ${config.showLocalInstalledDependenciesType}"
 
 
     Boolean showGlobalInstalledDependencies = false
