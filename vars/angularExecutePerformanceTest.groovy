@@ -12,11 +12,12 @@ def call(body) {
     def openshift_route_hostname_with_protocol = config.pts_openshift_route_hostname_with_protocol
     def performance_test_type = config.pts_performance_test_type
 
-    echo "angularExecutePerformanceTest global variable parameters"
-    echo "taurus_test_base_path: ${taurus_test_base_path}"
-    echo "acceptance_test_path: ${acceptance_test_path}"
-    echo "openshift_route_hostname_with_protocol: ${openshift_route_hostname_with_protocol}"
-    echo "performance_test_type: ${performance_test_type}"
+    echo "angularExecutePerformanceTest global variable parameters\n" +
+            "----------------------------------------------------------\n" +
+            "taurus_test_base_path: ${taurus_test_base_path} \n" +
+            "acceptance_test_path: ${acceptance_test_path} \n" +
+            "openshift_route_hostname_with_protocol: ${openshift_route_hostname_with_protocol} \n" +
+            "performance_test_type: ${performance_test_type}"
 
     def isErrorTestStage = false
     checkout scm

@@ -14,11 +14,11 @@ def call(body) {
     def branchType = config.branch_type
     def mapEnvironmentVariables = config.map_environment_variables
 
-    echo "angularOpenshiftEnvironmentVariables parameters"
-    echo "branchNameHY: ${branchNameHY}"
-    echo "branchType: ${branchType}"
-
-    echo "mapEnvironmentVariables:"
+    echo "angularOpenshiftEnvironmentVariables global variable parameters\n" +
+            "---------------------------------------------------------------\n" +
+            "branchNameHY: ${branchNameHY} \n" +
+            "branchType: ${branchType} \n" +
+            "mapEnvironmentVariables: \n" +
     mapEnvironmentVariables.each { key, value ->
         echo "Environment variable: ${key} = ${value}"
     }

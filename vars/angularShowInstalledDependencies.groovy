@@ -10,8 +10,8 @@ def call(body) {
     body()
 
 
-    echo "angularShowInstalledDependencies parameters\n" +
-            "-------------------------------------------\n" +
+    echo "angularShowInstalledDependencies global variable parameters\n" +
+            "-----------------------------------------------------------\n" +
             "config.showGlobalInstalledDependencies: ${config.showGlobalInstalledDependencies} \n" +
             "config.showGlobalInstalledDependenciesDepthLimit: ${config.showGlobalInstalledDependenciesDepthLimit} \n" +
             "config.showGlobalInstalledDependenciesDepth: ${config.showGlobalInstalledDependenciesDepth} \n" +

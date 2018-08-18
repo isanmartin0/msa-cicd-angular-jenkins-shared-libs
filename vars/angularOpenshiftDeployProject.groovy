@@ -9,10 +9,10 @@ def call(body) {
     body.delegate = config
     body()
 
-    echo "angularOpenshiftDeployProject parameters"
-
-    echo "config.branch_type: ${config.branch_type}"
-    echo "config.branchHY: ${config.branchHY}"
+    echo "angularOpenshiftDeployProject global variable parameters\n" +
+            "--------------------------------------------------------\n" +
+            "config.branch_type: ${config.branch_type} \n" +
+            "config.branchHY: ${config.branchHY}"
 
     def packageJSON = readJSON file: 'package.json'
     def project = utils.getProject(packageJSON.name)

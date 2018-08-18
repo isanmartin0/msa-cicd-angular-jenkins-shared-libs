@@ -9,21 +9,22 @@ def call(body) {
     body.delegate = config
     body()
 
-    echo "angularOpenshiftCheckAndCreateProject parameters"
-    echo "config.template: ${config.template}"
-    echo "config.environment: ${config.environment}"
-    echo "config.branch_type: ${config.branch_type}"
-    echo "config.branchHY: ${config.branchHY}"
-    echo "config.dockerRegistry: ${config.dockerRegistry}"
-    echo "config.sourceRepositoryURL: ${config.sourceRepositoryURL}"
-    echo "config.sourceRepositoryBranch: ${config.sourceRepositoryBranch}"
-    echo "config.environment: ${config.environment}"
-    echo "config.package_name: ${config.package_name}"
-    echo "config.package_tarball: ${config.package_tarball}"
-    echo "config.artifactoryRepo: ${config.artifactoryRepo}"
-    echo "config.contextDir: ${config.contextDir}"
-    echo "config.nginxVersion: ${config.nginxVersion}"
-    echo "config.artCredential: ${config.artCredential}"
+    echo "angularOpenshiftCheckAndCreateProject global variable parameters\n" +
+            "----------------------------------------------------------------\n" +
+            "config.template: ${config.template} \n" +
+            "config.environment: ${config.environment} \n" +
+            "config.branch_type: ${config.branch_type} \n" +
+            "config.branchHY: ${config.branchHY} \n" +
+            "config.dockerRegistry: ${config.dockerRegistry} \n" +
+            "config.sourceRepositoryURL: ${config.sourceRepositoryURL} \n" +
+            "config.sourceRepositoryBranch: ${config.sourceRepositoryBranch} \n" +
+            "config.environment: ${config.environment} \n" +
+            "config.package_name: ${config.package_name} \n" +
+            "config.package_tarball: ${config.package_tarball} \n" +
+            "config.artifactoryRepo: ${config.artifactoryRepo} \n" +
+            "config.contextDir: ${config.contextDir} \n" +
+            "config.nginxVersion: ${config.nginxVersion} \n" +
+            "config.artCredential: ${config.artCredential}"
 
 
     def packageJSON = readJSON file: 'package.json'
