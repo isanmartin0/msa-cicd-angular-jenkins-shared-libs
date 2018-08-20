@@ -10,10 +10,10 @@ def call(body) {
     echo "angularCheckPublishedPackage global variable parameters\n" +
             "-------------------------------------------------------\n" +
             "config.thePackageTag: ${config.thePackageTag} \n" +
-            "config.thePackageTarball: ${config.thePackageTarball} \n"
+            "config.thePackageViewTarball: ${config.thePackageViewTarball} \n"
 
     def packageTag = config.thePackageTag
-    def packageTarball = config.thePackageTarball
+    def packageViewTarball = config.thePackageViewTarball
 
     try {
         echo 'Get tarball location of package ...'
