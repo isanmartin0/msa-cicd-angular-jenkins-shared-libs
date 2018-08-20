@@ -40,7 +40,8 @@ def call(body) {
         def exc_message = exc.message
         echo "${exc_message}"
 
+        config.theUtils = null
         currentBuild.result = "FAILED"
-        throw new hudson.AbortException("Error publishing package on generic registry") as Throwable
+        //throw new hudson.AbortException("Error publishing package on generic registry") as Throwable
     }
 }
