@@ -13,8 +13,7 @@ def call(body) {
             "config.theArtifactoryURL: ${config.theArtifactoryURL} \n" +
             "config.theAngularGenericLocalRepositoryURL: ${config.theAngularGenericLocalRepositoryURL} \n" +
             "config.thePackageName: ${config.thePackageName} \n" +
-            "config.thePackageTarball: ${config.thePackageTarball} \n" +
-            "config.theUtils: ${config.theUtils} \n"
+            "config.thePackageTarball: ${config.thePackageTarball} \n"
 
     def artifactoryURL = config.theArtifactoryURL
     def angularGenericLocalRepositoryURL = config.theAngularGenericLocalRepositoryURL
@@ -40,8 +39,7 @@ def call(body) {
         def exc_message = exc.message
         echo "${exc_message}"
 
-        config.theUtils = null
         currentBuild.result = "FAILED"
-        //throw new hudson.AbortException("Error publishing package on generic registry") as Throwable
+        throw new hudson.AbortException("Error publishing package on generic registry") as Throwable
     }
 }
