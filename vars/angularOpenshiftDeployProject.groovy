@@ -27,5 +27,7 @@ def call(body) {
 
     echo "Deployed app at hostname: ${hostname}"
 
+    utils = null
+
     return hostname
 }

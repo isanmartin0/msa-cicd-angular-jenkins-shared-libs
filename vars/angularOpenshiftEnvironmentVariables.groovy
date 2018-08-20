@@ -1,5 +1,4 @@
 #!/usr/bin/groovy
-import com.evobanco.AngularConstants
 import com.evobanco.AngularUtils
 
 def call(body) {
@@ -44,5 +43,5 @@ def call(body) {
 
     }
 
-
+    utils = null
 }

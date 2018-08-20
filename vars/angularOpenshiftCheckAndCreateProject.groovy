@@ -3,6 +3,7 @@ import com.evobanco.AngularConstants
 import com.evobanco.AngularUtils
 
 def call(body) {
+
     def utils = new com.evobanco.AngularUtils()
     def config = [:]
     body.resolveStrategy = Closure.DELEGATE_FIRST
@@ -101,4 +102,6 @@ def call(body) {
         echo "The Openshift project ${projectName} exists."
         //Set environment
     }
+
+    utils = null
 }

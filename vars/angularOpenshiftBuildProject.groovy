@@ -1,5 +1,4 @@
 #!/usr/bin/groovy
-import com.evobanco.AngularConstants
 import com.evobanco.AngularUtils
 
 def call(body) {
@@ -37,4 +36,6 @@ def call(body) {
     def destTag = "${project}-${version}"
 
     openshiftTag(namespace: projectName, sourceStream: project, sourceTag: 'latest', destinationStream: project, destinationTag: destTag)
+
+    utils = null
 }

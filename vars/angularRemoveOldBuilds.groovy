@@ -1,9 +1,7 @@
 #!/usr/bin/groovy
-import com.evobanco.AngularConstants
-import com.evobanco.AngularUtils
 
 def call(body) {
-    def utils = new com.evobanco.AngularUtils()
+
     def config = [:]
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
@@ -59,6 +57,5 @@ def call(body) {
         properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '']]])
 
     }
-
 
 }
