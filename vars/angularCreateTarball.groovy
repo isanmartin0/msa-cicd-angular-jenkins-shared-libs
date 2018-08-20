@@ -35,7 +35,7 @@ def call(body) {
 
     if (useSpecificOutputPath) {
         if (config.buildSpecificOutputPath) {
-            packageJSONFilesNodeDistributionFolder = "${config.buildSpecificOutputPath}".toArray(new String[0])
+            packageJSONFilesNodeDistributionFolder = [${buildSpecificOutputPath}]
         }
     }
 
