@@ -193,7 +193,7 @@ def getRouteHostnameWithProtocol(String routeHostname, boolean isSecuredRoute) {
     return routeHostNameWithProtocol
 }
 
-
+@NonCPS
 def logMessage(String message) {
     echo message
 }
