@@ -21,7 +21,7 @@ def call(body) {
     def angularCliVersion = config.angularCliDefaultVersion
 
     if (config.installAngularCliSpecificVersion) {
-        installAngularCliSpecificVersion = params.angularCli.installAngularCliSpecificVersion.toBoolean()
+        installAngularCliSpecificVersion = config.installAngularCliSpecificVersion.toBoolean()
     }
 
     if (installAngularCliSpecificVersion) {
