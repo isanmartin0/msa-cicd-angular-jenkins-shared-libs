@@ -12,7 +12,7 @@ def call(body) {
             "config.useBuildProdFlags: ${config.useBuildProdFlags} \n" +
             "config.theBuildProdDefaultFlags: ${config.theBuildProdDefaultFlags} \n" +
             "config.theBuildProdFlags: ${config.theBuildProdFlags} \n" +
-            "config.theBuildSpecificOutputPath: ${config.theBuildSpecificOutputPath} \n" +
+            "config.theAngularCliLocalPath: ${config.theAngularCliLocalPath} \n" +
             "config.theInstallGloballyAngularCli: ${config.theInstallGloballyAngularCli} \n"
 
 
@@ -25,6 +25,7 @@ def call(body) {
     Boolean useBuildProdFlags = false
     def buildProdFlags = config.theBuildProdDefaultFlags
     Boolean installGloballyAngularCli = config.theInstallGloballyAngularCli
+    def angularCliLocalPath = config.theAngularCliLocalPath
 
     if (config.useBuildProdFlags) {
         useBuildProdFlags = config.useBuildProdFlags.toBoolean()
