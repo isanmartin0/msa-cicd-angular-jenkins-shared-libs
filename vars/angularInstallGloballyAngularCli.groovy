@@ -15,7 +15,7 @@ def call(body) {
             "config.installAngularCliSpecificVersion: ${config.installAngularCliSpecificVersion} \n" +
             "config.angularCliDefaultVersion: ${config.angularCliDefaultVersion} \n" +
             "config.angularCliSpecificVersion: ${config.angularCliSpecificVersion} \n" +
-            "config.nodeJS_pipeline_installation: ${config.nodeJS_pipeline_installation} \n"
+            "config.theNodeJS_pipeline_installation: ${config.theNodeJS_pipeline_installation} \n"
 
     Boolean installAngularCliSpecificVersion = false
     def angularCliVersion = config.angularCliDefaultVersion
@@ -36,7 +36,7 @@ def call(body) {
 
     } else {
         echo "Installing default @angular/cli version"
-        echo "NodeJS version: ${config.nodeJS_pipeline_installation}"
+        echo "NodeJS version: ${config.theNodeJS_pipeline_installation}"
         echo "@angular/cli default version: ${angularCliVersion}"
     }
 
