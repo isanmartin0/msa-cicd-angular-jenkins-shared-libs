@@ -9,8 +9,10 @@ def call(body) {
 
     echo "angularCheckPublishedPackage global variable parameters\n" +
             "-------------------------------------------------------\n" +
+            "config.thePackageTag: ${config.thePackageTag} \n" +
             "config.thePackageTarball: ${config.thePackageTarball} \n"
 
+    def packageTag = config.thePackageTag
     def packageTarball = config.thePackageTarball
 
     try {
