@@ -10,7 +10,7 @@ def call(body) {
     echo "angularGetNGVersion global variable parameters\n" +
             "-----------------------------------------------\n" +
             "config.theAngularCliLocalPath: ${config.theAngularCliLocalPath} \n" +
-            "config.theInstallGloballyAngularCli: ${config.theInstallGloballyAngularCli} \n" +
+            "config.theInstallGloballyAngularCli: ${config.theInstallGloballyAngularCli} \n"
 
     Boolean installGloballyAngularCli = config.theInstallGloballyAngularCli
     def angularCliLocalPath = config.theAngularCliLocalPath
