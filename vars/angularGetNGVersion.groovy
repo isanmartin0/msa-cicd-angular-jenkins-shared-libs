@@ -12,19 +12,15 @@ def call(body) {
             "config.theAngularCliLocalPath: ${config.theAngularCliLocalPath} \n" +
             "config.theInstallGloballyAngularCli: ${config.theInstallGloballyAngularCli} \n" +
 
-    Boolean installGloballyAngularCli = false
-    def angularCliLocalParh = config.theAngularCliLocalPath
-
-    if (config.theInstallGloballyAngularCli) {
-        installGloballyAngularCli = config.theInstallGloballyAngularCli.toBoolean()
-    }
+    Boolean installGloballyAngularCli = config.theInstallGloballyAngularCli
+    def angularCliLocalPath = config.theAngularCliLocalPath
 
     echo 'ng version:'
 
     if (installGloballyAngularCli) {
         sh "ng version "
     } else {
-        sh "${angularCliLocalParh}ng version"
+        sh "${angularCliLocalPath}ng version"
     }
 
 }
