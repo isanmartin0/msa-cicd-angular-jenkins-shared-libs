@@ -45,7 +45,7 @@ def call(body) {
                 || "MINUTES".equals(config.theTimeoutConfirmUnit.toUpperCase())
                 || "HOURS".equals(config.theTimeoutConfirmUnit.toUpperCase())
                 || "DAYS".equals(config.theTimeoutConfirmUnit.toUpperCase()))) {
-            isTimeoutConfirmDeployUnitValid = true
+            isTimeoutConfirmUnitValid = true
             timeoutConfirmUnit = config.theTimeoutConfirmUnit.toUpperCase()
         }
     }
@@ -58,9 +58,9 @@ def call(body) {
     }
 
 
-    if (timeoutConfirm && timeoutConfirmTime > 0 && isTimeoutConfirmDeployUnitValid) {
+    if (timeoutConfirm && timeoutConfirmTime > 0 && isTimeoutConfirmyUnitValid) {
         //Wrap input with timeout
-        timeout(time:timeoutConfirmTime, unit:"${timeoutConfirmDeployUnit}") {
+        timeout(time:timeoutConfirmTime, unit:"${timeoutConfirmUnit}") {
             answer = input message: "${config.theMessage}",
                     parameters: [choice(name: "${config.theChoiceName}", choices: "${config.theChoices}", description: "${config.theChoiceDescription}")]
         }
