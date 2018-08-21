@@ -10,12 +10,13 @@ def call(body) {
     echo "angularCreateTarball global variable parameters\n" +
             "-----------------------------------------------\n" +
             "config.thePackageJSON: ${config.thePackageJSON} \n" +
+            "config.theBuildDefaultOutputPath: ${config.theBuildDefaultOutputPath} \n" +
             "config.useSpecificOutputPath: ${config.useSpecificOutputPath} \n" +
-            "config.buildSpecificOutputPath: ${config.buildSpecificOutputPath} \n"
+            "config.theBuildSpecificOutputPath: ${config.buildSpecificOutputPath} \n"
 
     def packageJSON = config.thePackageJSON
 
-    def packageJSONFilesNodeDistributionFolder = ["dist/"]
+    def packageJSONFilesNodeDistributionFolder = config.theBuildDefaultOutputPath
 
     echo "Original package.json:"
     echo "${packageJSON}"
@@ -31,7 +32,7 @@ def call(body) {
     }
 
     if (useSpecificOutputPath) {
-        if (config.buildSpecificOutputPath) {
+        if (config.theBuildSpecificOutputPath) {
             packageJSONFilesNodeDistributionFolder = [config.buildSpecificOutputPath]
         }
     }
@@ -55,5 +56,7 @@ def call(body) {
 
     sh "npm pack"
 
+    echo "The build output path: ${packageJSONFilesNodeDistributionFolder}"
 
+    return packageJSONFilesNodeDistributionFolder
 }
