@@ -25,27 +25,27 @@ def call(body) {
     boolean isTimeoutConfirmDeployUnitValid = false
 
 
-    if (params.timeoutConfirmDeploy != null) {
-        timeoutConfirmDeploy = params.timeoutConfirmDeploy.toBoolean()
+    if (config.theTimeoutConfirmDeploy != null) {
+        timeoutConfirmDeploy = config.theTimeoutConfirmDeploy.toBoolean()
     }
 
     if (timeoutConfirmDeploy) {
 
 
-        String timeoutConfirmDeployTimeParam = params.timeoutConfirmDeployTime
+        String timeoutConfirmDeployTimeParam = config.theTimeoutConfirmDeployTime
         if (timeoutConfirmDeployTimeParam != null && timeoutConfirmDeployTimeParam.isInteger()) {
             timeoutConfirmDeployTime = timeoutConfirmDeployTimeParam as Integer
         }
 
-        if (params.timeoutConfirmDeployUnit != null && ("NANOSECONDS".equals(params.timeoutConfirmDeployUnit.toUpperCase())
-                || "MICROSECONDS".equals(params.timeoutConfirmDeployUnit.toUpperCase())
-                || "MILLISECONDS".equals(params.timeoutConfirmDeployUnit.toUpperCase())
-                || "SECONDS".equals(params.timeoutConfirmDeployUnit.toUpperCase())
-                || "MINUTES".equals(params.timeoutConfirmDeployUnit.toUpperCase())
-                || "HOURS".equals(params.timeoutConfirmDeployUnit.toUpperCase())
-                || "DAYS".equals(params.timeoutConfirmDeployUnit.toUpperCase()))) {
+        if (config.theTimeoutConfirmDeployUnit != null && ("NANOSECONDS".equals(config.theTimeoutConfirmDeployUnit.toUpperCase())
+                || "MICROSECONDS".equals(config.theTimeoutConfirmDeployUnit.toUpperCase())
+                || "MILLISECONDS".equals(config.theTimeoutConfirmDeployUnit.toUpperCase())
+                || "SECONDS".equals(config.theTimeoutConfirmDeployUnit.toUpperCase())
+                || "MINUTES".equals(config.theTimeoutConfirmDeployUnit.toUpperCase())
+                || "HOURS".equals(config.theTimeoutConfirmDeployUnit.toUpperCase())
+                || "DAYS".equals(config.theTimeoutConfirmDeployUnit.toUpperCase()))) {
             isTimeoutConfirmDeployUnitValid = true
-            timeoutConfirmDeployUnit = params.timeoutConfirmDeployUnit.toUpperCase()
+            timeoutConfirmDeployUnit = config.theTimeoutConfirmDeployUnit.toUpperCase()
         }
     }
 
