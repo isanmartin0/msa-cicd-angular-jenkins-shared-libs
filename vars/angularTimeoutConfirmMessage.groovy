@@ -9,66 +9,67 @@ def call(body) {
 
     echo "angularTimeoutConfirmMessage global variable parameters\n" +
             "-------------------------------------------------------\n" +
-            "config.theTimeoutConfirmDeploy: ${config.theTimeoutConfirmDeploy} \n" +
-            "config.theTimeoutConfirmDeployTime: ${config.theTimeoutConfirmDeployTime} \n" +
-            "config.theTimeoutConfirmDeployUnit: ${config.theTimeoutConfirmDeployUnit} \n" +
+            "config.theTimeoutConfirm: ${config.theTimeoutConfirm} \n" +
+            "config.theTimeoutConfirmTime: ${config.theTimeoutConfirmTime} \n" +
+            "config.theTimeoutConfirmUnit: ${config.theTimeoutConfirmUnit} \n" +
             "config.theMessage: ${config.theMessage} \n" +
             "config.theChoiceName: ${config.theChoiceName} \n" +
             "config.theChoices: ${config.theChoices} \n" +
             "config.theChoiceDescription: ${config.theChoiceDescription} \n"
 
-    //Parameters timeout deploy answer
+    //Parameters timeout answer
 
-    Boolean timeoutConfirmDeploy = false
-    int timeoutConfirmDeployTime = 0
-    String timeoutConfirmDeployUnit = ''
-    boolean isTimeoutConfirmDeployUnitValid = false
+    Boolean timeoutConfirm = false
+    int timeoutConfirmTime = 0
+    String timeoutConfirmUnit = ''
+    boolean isTimeoutConfirmUnitValid = false
+    def answer = ''
 
 
-    if (config.theTimeoutConfirmDeploy != null) {
-        timeoutConfirmDeploy = config.theTimeoutConfirmDeploy.toBoolean()
+    if (config.theTimeoutConfirm != null) {
+        timeoutConfirm = config.theTimeoutConfirm.toBoolean()
     }
 
-    if (timeoutConfirmDeploy) {
+    if (timeoutConfirm) {
 
 
-        String timeoutConfirmDeployTimeParam = config.theTimeoutConfirmDeployTime
-        if (timeoutConfirmDeployTimeParam != null && timeoutConfirmDeployTimeParam.isInteger()) {
-            timeoutConfirmDeployTime = timeoutConfirmDeployTimeParam as Integer
+        String timeoutConfirmTimeParam = config.theTimeoutConfirmTime
+        if (timeoutConfirmTimeParam != null && timeoutConfirmTimeParam.isInteger()) {
+            timeoutConfirmTime = timeoutConfirmTimeParam as Integer
         }
 
-        if (config.theTimeoutConfirmDeployUnit != null && ("NANOSECONDS".equals(config.theTimeoutConfirmDeployUnit.toUpperCase())
-                || "MICROSECONDS".equals(config.theTimeoutConfirmDeployUnit.toUpperCase())
-                || "MILLISECONDS".equals(config.theTimeoutConfirmDeployUnit.toUpperCase())
-                || "SECONDS".equals(config.theTimeoutConfirmDeployUnit.toUpperCase())
-                || "MINUTES".equals(config.theTimeoutConfirmDeployUnit.toUpperCase())
-                || "HOURS".equals(config.theTimeoutConfirmDeployUnit.toUpperCase())
-                || "DAYS".equals(config.theTimeoutConfirmDeployUnit.toUpperCase()))) {
+        if (config.theTimeoutConfirmUnit != null && ("NANOSECONDS".equals(config.theTimeoutConfirmUnit.toUpperCase())
+                || "MICROSECONDS".equals(config.theTimeoutConfirmUnit.toUpperCase())
+                || "MILLISECONDS".equals(config.theTimeoutConfirmUnit.toUpperCase())
+                || "SECONDS".equals(config.theTimeoutConfirmUnit.toUpperCase())
+                || "MINUTES".equals(config.theTimeoutConfirmUnit.toUpperCase())
+                || "HOURS".equals(config.theTimeoutConfirmUnit.toUpperCase())
+                || "DAYS".equals(config.theTimeoutConfirmUnit.toUpperCase()))) {
             isTimeoutConfirmDeployUnitValid = true
-            timeoutConfirmDeployUnit = config.theTimeoutConfirmDeployUnit.toUpperCase()
+            timeoutConfirmUnit = config.theTimeoutConfirmUnit.toUpperCase()
         }
     }
 
-    echo "timeoutConfirmDeploy value: ${timeoutConfirmDeploy}"
+    echo "timeoutConfirm value: ${timeoutConfirm}"
 
-    if (timeoutConfirmDeploy) {
-        echo "timeoutConfirmDeployTime value: ${timeoutConfirmDeployTime}"
-        echo "timeoutConfirmDeployUnit value: ${timeoutConfirmDeployUnit}"
+    if (timeoutConfirm) {
+        echo "timeoutConfirmTime value: ${timeoutConfirmTime}"
+        echo "timeoutConfirmUnit value: ${timeoutConfirmUnit}"
     }
 
 
-    if (timeoutConfirmDeploy && timeoutConfirmDeployTime > 0 && isTimeoutConfirmDeployUnitValid) {
+    if (timeoutConfirm && timeoutConfirmTime > 0 && isTimeoutConfirmDeployUnitValid) {
         //Wrap input with timeout
-        timeout(time:timeoutConfirmDeployTime, unit:"${timeoutConfirmDeployUnit}") {
-            deploy = input message: "${config.theMessage}",
+        timeout(time:timeoutConfirmTime, unit:"${timeoutConfirmDeployUnit}") {
+            answer = input message: "${config.theMessage}",
                     parameters: [choice(name: "${config.theChoiceName}", choices: "${config.theChoices}", description: "${config.theChoiceDescription}")]
         }
     } else {
         //Input without timeout
-        deploy = input message: "${config.theMessage}",
+        answer = input message: "${config.theMessage}",
                 parameters: [choice(name: "${config.theChoiceName}", choices: "${config.theChoices}", description: "${config.theChoiceDescription}")]
 
     }
 
-    return deploy
+    return answer
 }
