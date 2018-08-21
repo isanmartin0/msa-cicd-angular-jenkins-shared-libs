@@ -177,7 +177,7 @@ def call(body) {
             parallel tasks
 
             //Performance tests
-            if (branchType in onfig.thePerformanceTestingBranches) {
+            if (branchType in config.thePerformanceTestingBranches) {
                 node('taurus') { //taurus
                     try {
                         stage("${AngularConstants.PERFORMANCE_TEST_TYPE} Tests") {
