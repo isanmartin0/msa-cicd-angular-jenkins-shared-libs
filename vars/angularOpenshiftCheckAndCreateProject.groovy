@@ -43,7 +43,7 @@ def call(body) {
     echo "projectName: ${projectName}"
 
     if (buildOutputPath.endsWith("/")) {
-        buildOutputPath = buildOutputPath[0..-1]
+        buildOutputPath = buildOutputPath[0..-2]
     }
 
     echo "buildOutputPath: ${buildOutputPath}"
