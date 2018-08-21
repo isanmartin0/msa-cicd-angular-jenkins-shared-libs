@@ -61,12 +61,12 @@ def call(body) {
         //Wrap input with timeout
         timeout(time:timeoutConfirmDeployTime, unit:"${timeoutConfirmDeployUnit}") {
             deploy = input message: "${config.theMessage}",
-                    parameters: [choice(name: "${theChoiceName}", choices: "${theChoices}", description: "${theChoiceDescription}")]
+                    parameters: [choice(name: "${config.theChoiceName}", choices: "${config.theChoices}", description: "${config.theChoiceDescription}")]
         }
     } else {
         //Input without timeout
         deploy = input message: "${config.theMessage}",
-                parameters: [choice(name: "${theChoiceName}", choices: 'No\nYes', description: "${theChoiceDescription}")]
+                parameters: [choice(name: "${config.theChoiceName}", choices: "${config.theChoices}", description: "${config.theChoiceDescription}")]
 
     }
 
