@@ -57,6 +57,8 @@ def call(body) {
 
     if (doPerformanceTests) {
 
+        echo "The proccesed branch have configured some kind of post deploy tests"
+
         node {
             try {
                 stage('Decide on execution post deploy tests') {
