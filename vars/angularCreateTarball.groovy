@@ -33,7 +33,7 @@ def call(body) {
 
     if (useSpecificOutputPath) {
         if (config.theBuildSpecificOutputPath) {
-            packageJSONFilesNodeDistributionFolder = [config.buildSpecificOutputPath]
+            packageJSONFilesNodeDistributionFolder = [config.theBuildSpecificOutputPath]
         }
     }
 
