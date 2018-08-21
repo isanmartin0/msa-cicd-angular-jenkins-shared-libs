@@ -64,9 +64,9 @@ def call(body) {
                 stage('Decide on execution post deploy tests') {
 
                     executePostDeployTests = angularTimeoutConfirmMessage {
-                        theTimeoutConfirmDeploy = config.theTimeoutConfirmPostDeployTests
-                        theTimeoutConfirmDeployTime = config.theTimeoutConfirmPostDeployTestsTime
-                        theTimeoutConfirmDeployUnit = config.theTimeoutConfirmPostDeployTestsUnit
+                        theTimeoutConfirm = config.theTimeoutConfirmPostDeployTests
+                        theTimeoutConfirmTime = config.theTimeoutConfirmPostDeployTestsTime
+                        theTimeoutConfirmUnit = config.theTimeoutConfirmPostDeployTestsUnit
                         theMessage = 'Waiting for user approval'
                         theChoiceName = 'Continue and execute post deploy tests? (check that the exposed route is accesible)'
                         theChoices = 'No\nYes'
