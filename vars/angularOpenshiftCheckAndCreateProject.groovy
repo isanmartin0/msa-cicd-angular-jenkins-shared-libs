@@ -25,7 +25,7 @@ def call(body) {
             "config.artifactoryRepo: ${config.artifactoryRepo} \n" +
             "config.contextDir: ${config.contextDir} \n" +
             "config.nginxVersion: ${config.nginxVersion} \n" +
-            "config.artCredential: ${config.artCredential}"
+            "config.artCredential: ${config.artCredential} \n" +
             "config.build_output_path: ${config.build_output_path}"
 
 
