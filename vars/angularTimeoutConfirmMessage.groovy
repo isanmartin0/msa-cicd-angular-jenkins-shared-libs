@@ -58,7 +58,7 @@ def call(body) {
     }
 
 
-    if (timeoutConfirm && timeoutConfirmTime > 0 && isTimeoutConfirmyUnitValid) {
+    if (timeoutConfirm && timeoutConfirmTime > 0 && isTimeoutConfirmUnitValid) {
         //Wrap input with timeout
         timeout(time:timeoutConfirmTime, unit:"${timeoutConfirmUnit}") {
             answer = input message: "${config.theMessage}",
