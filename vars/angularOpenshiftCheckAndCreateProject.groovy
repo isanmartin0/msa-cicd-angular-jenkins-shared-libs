@@ -26,6 +26,7 @@ def call(body) {
             "config.contextDir: ${config.contextDir} \n" +
             "config.nginxVersion: ${config.nginxVersion} \n" +
             "config.artCredential: ${config.artCredential}"
+            "config.build_output_path: ${config.build_output_path}"
 
 
     def packageJSON = readJSON file: 'package.json'
@@ -35,6 +36,7 @@ def call(body) {
     int minimumPodReplicas = AngularConstants.MINIMUM_POD_REPLICAS
     int maximumPodReplicas = AngularConstants.MAXIMUM_POD_REPLICAS
     def hostname = ""
+    def buildOutputPath = config.build_output_path[0]
 
 
     echo "project: ${project}"
@@ -83,7 +85,7 @@ def call(body) {
         sh "oc project ${projectName}"
 
         withCredentials([string(credentialsId: "${config.artCredential}", variable: 'ARTIFACTORY_TOKEN')]) {
-            sh "oc process -n ${projectName} -f ${config.template} BRANCH_NAME=${env.BRANCH_NAME} BRANCH_NAME_HY=${config.branchHY} BRANCH_NAME_HY_CONTAINER_IMAGE=${branchNameContainerImage} PROJECT=${project} DOCKER_REGISTRY=${config.dockerRegistry} SOURCE_REPOSITORY_URL=${config.sourceRepositoryURL} SOURCE_REPOSITORY_BRANCH=${config.sourceRepositoryBranch} envLabel=${config.environment} HOST_NAME=${hostname} MIN_POD_REPLICAS=${minimumPodReplicas} MAX_POD_REPLICAS=${maximumPodReplicas} ANGULAR_PACKAGE_NAME=${config.package_name} ANGULAR_PACKAGE_TARBALL=${config.package_tarball} ARTIFACTORY_REPO=${config.artifactoryRepo} CONTEXT_DIR=${config.contextDir} NGINX_VERSION=${config.nginxVersion} ARTIFACTORY_TOKEN=${ARTIFACTORY_TOKEN} | oc create -n ${projectName} -f -"
+            sh "oc process -n ${projectName} -f ${config.template} BRANCH_NAME=${env.BRANCH_NAME} BRANCH_NAME_HY=${config.branchHY} BRANCH_NAME_HY_CONTAINER_IMAGE=${branchNameContainerImage} PROJECT=${project} DOCKER_REGISTRY=${config.dockerRegistry} SOURCE_REPOSITORY_URL=${config.sourceRepositoryURL} SOURCE_REPOSITORY_BRANCH=${config.sourceRepositoryBranch} envLabel=${config.environment} HOST_NAME=${hostname} MIN_POD_REPLICAS=${minimumPodReplicas} MAX_POD_REPLICAS=${maximumPodReplicas} ANGULAR_PACKAGE_NAME=${config.package_name} ANGULAR_PACKAGE_TARBALL=${config.package_tarball} ARTIFACTORY_REPO=${config.artifactoryRepo} CONTEXT_DIR=${config.contextDir} NGINX_VERSION=${config.nginxVersion} ARTIFACTORY_TOKEN=${ARTIFACTORY_TOKEN} BUILD_OUTPUT_PATH=${buildOutputPath} | oc create -n ${projectName} -f -"
         }
 
         echo "Resources (is,bc,dc,svc,route) created under OCP namespace ${projectName}"
