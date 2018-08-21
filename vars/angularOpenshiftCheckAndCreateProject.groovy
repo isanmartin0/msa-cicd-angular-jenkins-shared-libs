@@ -42,6 +42,12 @@ def call(body) {
     echo "project: ${project}"
     echo "projectName: ${projectName}"
 
+    if (buildOutputPath.endsWith("/")) {
+        buildOutputPath = buildOutputPath[0..-1]
+    }
+
+    echo "buildOutputPath: ${buildOutputPath}"
+
     if (config.branch_type == 'master') {
         //Host name for the route element
         hostname = ".svcs" + AngularConstants.HOSTNAME_DOMAIN
