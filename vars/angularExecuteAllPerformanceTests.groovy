@@ -25,6 +25,7 @@ def call(body) {
 
 
     def tasks = [:]
+    def doPerformanceTests = false
     Boolean errorOnPostDeployTestsUnstableResult = false
     def branchType = config.theBranchType
     def taurus_test_base_path = config.theTaurusTestBasePath
@@ -41,17 +42,121 @@ def call(body) {
     echo "errorOnPostDeployTestsUnstableResult value: ${errorOnPostDeployTestsUnstableResult}"
 
 
-    //Smoke tests
-    if (branchType in config.theSmokeTestingBranches) {
-        tasks["${AngularConstants.SMOKE_TEST_TYPE}"] = {
+    if (branchType in config.theSmokeTestingBranches
+            || branchType in config.theSmokeTestingBranches
+            || branchType in config.theSmokeTestingBranches
+            || branchType in config.theSmokeTestingBranches)   {
+        doPerformanceTests = true
+    }
+
+    echo "doPerformanceTests value: ${doPerformanceTests}"
+
+
+    if (doPerformanceTests) {
+
+        //Smoke tests
+        if (branchType in config.theSmokeTestingBranches) {
+            tasks["${AngularConstants.SMOKE_TEST_TYPE}"] = {
+                node('taurus') { //taurus
+                    try {
+                        stage("${AngularConstants.SMOKE_TEST_TYPE} Tests") {
+                            angularExecutePerformanceTest {
+                                pts_taurus_test_base_path = taurus_test_base_path
+                                pts_acceptance_test_path = smoke_test_path
+                                pts_openshift_route_hostname_with_protocol = openshift_route_hostname_with_protocol
+                                pts_performance_test_type = AngularConstants.SMOKE_TEST_TYPE
+                            }
+                        }
+                    } catch (exc) {
+                        def exc_message = exc.message
+                        echo "${exc_message}"
+                        if (errorOnPostDeployTestsUnstableResult) {
+                            currentBuild.result = AngularConstants.UNSTABLE_BUILD_RESULT
+                        } else {
+                            //Failed status
+                            currentBuild.result = AngularConstants.FAILURE_BUILD_RESULT
+                            throw new hudson.AbortException("The ${AngularConstants.SMOKE_TEST_TYPE} tests stage has failures") as Throwable
+                        }
+                    }
+                }
+            }
+        } else {
+            echo "Skipping ${AngularConstants.SMOKE_TEST_TYPE} tests..."
+        }
+
+        //Acceptance tests
+        if (branchType in config.theAcceptanceTestingBranches) {
+            tasks["${AngularConstants.ACCEPTANCE_TEST_TYPE}"] = {
+                node('taurus') { //taurus
+                    try {
+                        stage("${AngularConstants.ACCEPTANCE_TEST_TYPE} Tests") {
+                            angularExecutePerformanceTest {
+                                pts_taurus_test_base_path = taurus_test_base_path
+                                pts_acceptance_test_path = acceptance_test_path
+                                pts_openshift_route_hostname_with_protocol = openshift_route_hostname_with_protocol
+                                pts_performance_test_type = AngularConstants.ACCEPTANCE_TEST_TYPE
+                            }
+                        }
+                    } catch (exc) {
+                        def exc_message = exc.message
+                        echo "${exc_message}"
+                        if (errorOnPostDeployTestsUnstableResult) {
+                            currentBuild.result = AngularConstants.UNSTABLE_BUILD_RESULT
+                        } else {
+                            //Failed status
+                            currentBuild.result = AngularConstants.FAILURE_BUILD_RESULT
+                            throw new hudson.AbortException("The ${AngularConstants.ACCEPTANCE_TEST_TYPE} tests stage has failures") as Throwable
+                        }
+                    }
+                }
+            }
+        } else {
+            echo "Skipping ${AngularConstants.ACCEPTANCE_TEST_TYPE} tests..."
+        }
+
+        //Security tests
+        if (branchType in config.theSecurityTestingBranches) {
+            tasks["${AngularConstants.SECURITY_TEST_TYPE}"] = {
+                node('taurus') { //taurus
+                    try {
+                        stage("${AngularConstants.SECURITY_TEST_TYPE} Tests") {
+                            angularExecutePerformanceTest {
+                                pts_taurus_test_base_path = taurus_test_base_path
+                                pts_acceptance_test_path = security_test_path
+                                pts_openshift_route_hostname_with_protocol = openshift_route_hostname_with_protocol
+                                pts_performance_test_type = AngularConstants.SECURITY_TEST_TYPE
+                            }
+                        }
+                    } catch (exc) {
+                        def exc_message = exc.message
+                        echo "${exc_message}"
+                        if (errorOnPostDeployTestsUnstableResult) {
+                            currentBuild.result = AngularConstants.UNSTABLE_BUILD_RESULT
+                        } else {
+                            //Failed status
+                            currentBuild.result = AngularConstants.FAILURE_BUILD_RESULT
+                            throw new hudson.AbortException("The ${AngularConstants.SECURITY_TEST_TYPE} tests stage has failures") as Throwable
+                        }
+                    }
+                }
+            }
+        } else {
+            echo "Skipping ${AngularConstants.SECURITY_TEST_TYPE} tests..."
+        }
+
+        //Executing smoke, acceptance and security tests in parallel
+        parallel tasks
+
+        //Performance tests
+        if (branchType in onfig.thePerformanceTestingBranches) {
             node('taurus') { //taurus
                 try {
-                    stage("${AngularConstants.SMOKE_TEST_TYPE} Tests") {
+                    stage("${AngularConstants.PERFORMANCE_TEST_TYPE} Tests") {
                         angularExecutePerformanceTest {
                             pts_taurus_test_base_path = taurus_test_base_path
-                            pts_acceptance_test_path = smoke_test_path
+                            pts_acceptance_test_path = performance_test_path
                             pts_openshift_route_hostname_with_protocol = openshift_route_hostname_with_protocol
-                            pts_performance_test_type = AngularConstants.SMOKE_TEST_TYPE
+                            pts_performance_test_type = AngularConstants.PERFORMANCE_TEST_TYPE
                         }
                     }
                 } catch (exc) {
@@ -62,105 +167,15 @@ def call(body) {
                     } else {
                         //Failed status
                         currentBuild.result = AngularConstants.FAILURE_BUILD_RESULT
-                        throw new hudson.AbortException("The ${AngularConstants.SMOKE_TEST_TYPE} tests stage has failures") as Throwable
+                        throw new hudson.AbortException("The ${AngularConstants.PERFORMANCE_TEST_TYPE} tests stage has failures") as Throwable
                     }
                 }
             }
+        } else {
+            echo "Skipping ${AngularConstants.PERFORMANCE_TEST_TYPE} tests..."
         }
+
     } else {
-        echo "Skipping ${AngularConstants.SMOKE_TEST_TYPE} tests..."
-    }
-
-    //Acceptance tests
-    if (branchType in config.theAcceptanceTestingBranches) {
-        tasks["${AngularConstants.ACCEPTANCE_TEST_TYPE}"] = {
-            node('taurus') { //taurus
-                try {
-                    stage("${AngularConstants.ACCEPTANCE_TEST_TYPE} Tests") {
-                        angularExecutePerformanceTest {
-                            pts_taurus_test_base_path = taurus_test_base_path
-                            pts_acceptance_test_path = acceptance_test_path
-                            pts_openshift_route_hostname_with_protocol = openshift_route_hostname_with_protocol
-                            pts_performance_test_type = AngularConstants.ACCEPTANCE_TEST_TYPE
-                        }
-                    }
-                } catch (exc) {
-                    def exc_message = exc.message
-                    echo "${exc_message}"
-                    if (errorOnPostDeployTestsUnstableResult) {
-                        currentBuild.result = AngularConstants.UNSTABLE_BUILD_RESULT
-                    } else {
-                        //Failed status
-                        currentBuild.result = AngularConstants.FAILURE_BUILD_RESULT
-                        throw new hudson.AbortException("The ${AngularConstants.ACCEPTANCE_TEST_TYPE} tests stage has failures") as Throwable
-                    }
-                }
-            }
-        }
-    } else {
-        echo "Skipping ${AngularConstants.ACCEPTANCE_TEST_TYPE} tests..."
-    }
-
-    //Security tests
-    if (branchType in config.theSecurityTestingBranches) {
-        tasks["${AngularConstants.SECURITY_TEST_TYPE}"] = {
-            node('taurus') { //taurus
-                try {
-                    stage("${AngularConstants.SECURITY_TEST_TYPE} Tests") {
-                        angularExecutePerformanceTest {
-                            pts_taurus_test_base_path = taurus_test_base_path
-                            pts_acceptance_test_path = security_test_path
-                            pts_openshift_route_hostname_with_protocol = openshift_route_hostname_with_protocol
-                            pts_performance_test_type = AngularConstants.SECURITY_TEST_TYPE
-                        }
-                    }
-                } catch (exc) {
-                    def exc_message = exc.message
-                    echo "${exc_message}"
-                    if (errorOnPostDeployTestsUnstableResult) {
-                        currentBuild.result = AngularConstants.UNSTABLE_BUILD_RESULT
-                    } else {
-                        //Failed status
-                        currentBuild.result = AngularConstants.FAILURE_BUILD_RESULT
-                        throw new hudson.AbortException("The ${AngularConstants.SECURITY_TEST_TYPE} tests stage has failures") as Throwable
-                    }
-                }
-            }
-        }
-    } else {
-        echo "Skipping ${AngularConstants.SECURITY_TEST_TYPE} tests..."
-    }
-
-
-    //Executing smoke, acceptance and security tests in parallel
-    parallel tasks
-
-
-    //Performance tests
-    if (branchType in onfig.thePerformanceTestingBranches) {
-        node('taurus') { //taurus
-            try {
-                stage("${AngularConstants.PERFORMANCE_TEST_TYPE} Tests") {
-                    angularExecutePerformanceTest {
-                        pts_taurus_test_base_path = taurus_test_base_path
-                        pts_acceptance_test_path = performance_test_path
-                        pts_openshift_route_hostname_with_protocol = openshift_route_hostname_with_protocol
-                        pts_performance_test_type = AngularConstants.PERFORMANCE_TEST_TYPE
-                    }
-                }
-            } catch (exc) {
-                def exc_message = exc.message
-                echo "${exc_message}"
-                if (errorOnPostDeployTestsUnstableResult) {
-                    currentBuild.result = AngularConstants.UNSTABLE_BUILD_RESULT
-                } else {
-                    //Failed status
-                    currentBuild.result = AngularConstants.FAILURE_BUILD_RESULT
-                    throw new hudson.AbortException("The ${AngularConstants.PERFORMANCE_TEST_TYPE} tests stage has failures") as Throwable
-                }
-            }
-        }
-    } else {
-        echo "Skipping ${AngularConstants.PERFORMANCE_TEST_TYPE} tests..."
+        echo "Skipping all post build types tests..."
     }
 }
