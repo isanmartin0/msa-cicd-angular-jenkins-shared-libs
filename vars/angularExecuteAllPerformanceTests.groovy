@@ -11,6 +11,9 @@ def call(body) {
     echo "angularExecuteAllPerformanceTests global variable parameters\n" +
             "------------------------------------------------------------\n" +
             "config.theBranchType: ${config.theBranchType} \n" +
+            "config.theTimeoutConfirmPostDeployTests: ${config.theTimeoutConfirmPostDeployTests} \n" +
+            "config.theTimeoutConfirmPostDeployTestsTime: ${config.theTimeoutConfirmPostDeployTestsTime} \n" +
+            "config.theTimeoutConfirmPostDeployTestsUnit: ${config.theTimeoutConfirmPostDeployTestsUnit} \n" +
             "config.theSmokeTestingBranches: ${config.theSmokeTestingBranches} \n" +
             "config.theAcceptanceTestingBranches: ${config.theAcceptanceTestingBranches} \n" +
             "config.theSecurityTestingBranches: ${config.theSecurityTestingBranches} \n" +
@@ -51,8 +54,32 @@ def call(body) {
 
     echo "doPerformanceTests value: ${doPerformanceTests}"
 
-
+    doPerformanceTests = true
     if (doPerformanceTests) {
+
+        node {
+            try {
+                stage('Decide on execution post deploy tests') {
+
+                    deploy = angularTimeoutConfirmMessage {
+                        theTimeoutConfirmDeploy = config.theTimeoutConfirmPostDeployTests
+                        theTimeoutConfirmDeployTime = config.theTimeoutConfirmPostDeployTestsTime
+                        theTimeoutConfirmDeployUnit = config.theTimeoutConfirmPostDeployTestsUnit
+                        theMessage = 'Waiting for user approval'
+                        theChoiceName = 'Continue and execute post deploy tests?'
+                        theChoices = 'No\nYes'
+                        theChoiceDescription = 'Choose "Yes" if you want to execute post deploy tess'
+                    }
+                }
+
+            } catch (err) {
+                def user = err.getCauses()[0].getUser()
+                if ('SYSTEM'.equals(user.toString())) { //timeout
+                    currentBuild.result = "FAILED"
+                    throw new hudson.AbortException("Timeout on confirm execution post deploy tests") as Throwable
+                }
+            }
+        }
 
         //Smoke tests
         if (branchType in config.theSmokeTestingBranches) {
