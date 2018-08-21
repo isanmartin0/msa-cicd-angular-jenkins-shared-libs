@@ -12,7 +12,7 @@ def call(body) {
             "config.thePackageJSON: ${config.thePackageJSON} \n" +
             "config.theBuildDefaultOutputPath: ${config.theBuildDefaultOutputPath} \n" +
             "config.useSpecificOutputPath: ${config.useSpecificOutputPath} \n" +
-            "config.theBuildSpecificOutputPath: ${config.buildSpecificOutputPath} \n"
+            "config.theBuildSpecificOutputPath: ${config.theBuildSpecificOutputPath} \n"
 
     def packageJSON = config.thePackageJSON
 
