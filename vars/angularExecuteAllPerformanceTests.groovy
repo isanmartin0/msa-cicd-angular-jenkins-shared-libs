@@ -55,7 +55,6 @@ def call(body) {
 
     echo "doPerformanceTests value: ${doPerformanceTests}"
 
-    doPerformanceTests = true
     if (doPerformanceTests) {
 
         node {
