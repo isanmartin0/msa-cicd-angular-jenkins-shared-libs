@@ -122,9 +122,9 @@ def call(body) {
         sh "oc env bc/${project} ${AngularConstants.BUILD_OUTPUT_PATH_ENVIRONMENT_VARIABLE}=\"${buildOutputPath}\" -n ${projectName}"
 
 
-        //Check if template NGINX version matches with parameter
+        //Check that NGINX version of the build configuration matches with nginx version of the parameter
         try {
-            echo 'Get template NGINX version ...'
+            echo 'Get NGINX version of the build configuration...'
             check_nginx_version_script = $/eval "oc describe bc'/'${
                 project
             } -n ${
@@ -136,11 +136,13 @@ def call(body) {
             def check_nginx_version_script_output = sh(script: "${check_nginx_version_script}", returnStdout: true).toString().trim()
             echo "${check_nginx_version_script_output}"
         } catch (exc) {
-            echo 'There is an error on checking the nginx version'
+            echo 'The NGINX version doesn't match''
             def exc_message = exc.message
             echo "${exc_message}"
-            currentBuild.result = "FAILED"
-            throw new hudson.AbortException("Error checking existence of package on NPM registry") as Throwable
+
+            sh "oc patch buildconfig -p '{\"spec\":{\"strategy\":{\"sourceStrategy\":{\"from\":{\"name\":\"nginx:${config.nginxVersion}\"}}}}}' ${project} -n ${projectName}"
+
+
         }
 
     }
