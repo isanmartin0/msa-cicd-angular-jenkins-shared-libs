@@ -136,18 +136,17 @@ def call(body) {
             def check_nginx_version_script_output = sh(script: "${check_nginx_version_script}", returnStdout: true).toString().trim()
             echo "${check_nginx_version_script_output}"
         } catch (exc) {
-            echo 'The NGINX version doesn\'t match'
+            echo 'The NGINX version doesn\'t match. Patch the buildconfig with the parameter\'s NGINX version'
             def exc_message = exc.message
             echo "${exc_message}"
 
             try {
-                sh "oc patch buildconfig -p '{\"spec\":{\"strategy\":{\"sourceStrategy\":{\"from\":{\"name\":\"nginx:${config.nginxVersion}\"}}}}}' ${project} -n ${projectName}"
+                sh "oc patch buildconfig -p '{\"spec\":{\"strategy\":{\"sourceStrategy\":{\"from\":{\"name\":\"xxnginx:${config.nginxVersion}\"}}}}}' ${project} -n ${projectName}"
             } catch (innerExc) {
                 echo 'There is an error on doing patch of nginx version.'
                 def innerExc_message = innerExc.message
                 echo "${innerExc_message}"
             }
-
         }
 
     }
