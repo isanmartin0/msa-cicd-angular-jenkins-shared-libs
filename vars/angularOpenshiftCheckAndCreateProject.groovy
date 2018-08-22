@@ -136,7 +136,7 @@ def call(body) {
             def check_nginx_version_script_output = sh(script: "${check_nginx_version_script}", returnStdout: true).toString().trim()
             echo "${check_nginx_version_script_output}"
         } catch (exc) {
-            echo 'The NGINX version doesn't match''
+            echo 'The NGINX version doesn\'t match'
             def exc_message = exc.message
             echo "${exc_message}"
 
