@@ -24,6 +24,11 @@ def call(body) {
         filesKarmaConfJs = findFiles(glob: 'src/karma.conf.js')
     }
 
+    if (filesKarmaConfJs.length == 0) {
+        currentBuild.result = "FAILED"
+        throw new hudson.AbortException("Error. karma.conf.js is not found on root directory or src directory of the project") as Throwable
+    }
+
     echo """Karma configuration file path:  ${filesKarmaConfJs[0].path} """
     def karmaConfJSFile = readFile file: "${filesKarmaConfJs[0].path}"
 
