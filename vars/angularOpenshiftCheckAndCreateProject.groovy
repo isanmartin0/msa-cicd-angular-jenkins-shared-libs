@@ -120,6 +120,27 @@ def call(body) {
 
         echo "Adding ${AngularConstants.BUILD_OUTPUT_PATH_ENVIRONMENT_VARIABLE}=${buildOutputPath} environment variable on bc/${project}"
         sh "oc env bc/${project} ${AngularConstants.BUILD_OUTPUT_PATH_ENVIRONMENT_VARIABLE}=\"${buildOutputPath}\" -n ${projectName}"
+
+
+        //Check if template NGINX version matches with parameter
+        try {
+            echo 'Get template NGINX version ...'
+            check_nginx_version_script = $/eval "oc describe bc'/'${
+                projectName
+            } dist.tarball | grep 'nginx:${
+                config.nginxVersion
+            }'"/$
+            echo "${check_nginx_version_script}"
+            def check_nginx_version_script_output = sh(script: "${check_nginx_version_script}", returnStdout: true).toString().trim()
+            echo "${check_nginx_version_script_output}"
+        } catch (exc) {
+            echo 'There is an error on checking the nginx version'
+            def exc_message = exc.message
+            echo "${exc_message}"
+            currentBuild.result = "FAILED"
+            throw new hudson.AbortException("Error checking existence of package on NPM registry") as Throwable
+        }
+
     }
 
     utils = null
