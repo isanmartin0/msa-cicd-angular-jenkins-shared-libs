@@ -108,7 +108,18 @@ def call(body) {
 
     if (!openshiftProjectCreated) {
         echo "The Openshift project ${projectName} exists."
-        //Set environment
+
+        //Set environment build config variables (parameters value may overwrite template values
+        try {
+            //Remove BUILD_OUTPUT_PATH environment variable created by template
+            echo "Removing BUILD_OUTPUT_PATH environment variable"
+            sh "oc env bc/${project} ${AngularConstants.BUILD_OUTPUT_PATH_ENVIRONMENT_VARIABLE}- -n ${projectName}"
+        } catch (err) {
+            echo "The ${AngularConstants.BUILD_OUTPUT_PATH_ENVIRONMENT_VARIABLE} environment variable on bc/${project} -n ${projectName} cannot be removed"
+        }
+
+        echo "Adding ${AngularConstants.BUILD_OUTPUT_PATH_ENVIRONMENT_VARIABLE}=${buildOutputPath} environment variable on bc/${project}"
+        sh "oc env bc/${project} ${AngularConstants.BUILD_OUTPUT_PATH_ENVIRONMENT_VARIABLE}=\"${buildOutputPath}\" -n ${projectName}"
     }
 
     utils = null
