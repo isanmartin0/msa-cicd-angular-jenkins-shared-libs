@@ -17,8 +17,8 @@ def call(body) {
             "---------------------------------------------------------------\n" +
             "branchNameHY: ${branchNameHY} \n" +
             "branchType: ${branchType} \n" +
-            "config.theMapEnvironmentVariables: \n" +
-            config.theMapEnvironmentVariables.each { key, value ->
+            "config.theEnvironmentVariablesMap: \n" +
+            config.theEnvironmentVariablesMap.each { key, value ->
                 echo "Environment variable: ${key} = ${value}"
             }
 
@@ -32,8 +32,8 @@ def call(body) {
     echo "projectName: ${projectName}"
 
 
-    if (config.theMapEnvironmentVariables) {
-        mapEnvironmentVariables = config.theMapEnvironmentVariables
+    if (config.theEnvironmentVariablesMap) {
+        mapEnvironmentVariables = config.theEnvironmentVariablesMap
     }
 
     echo "mapEnvironmentVariables:"
