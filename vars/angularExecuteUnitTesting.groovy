@@ -18,7 +18,12 @@ def call(body) {
 
     echo "Building unit test"
 
-    def filesKarmaConfJs = findFiles(glob: '**/karma.conf.js')
+    def filesKarmaConfJs = findFiles(glob: 'karma.conf.js')
+
+    if (filesKarmaConfJs.length == 0) {
+        filesKarmaConfJs = findFiles(glob: 'src/karma.conf.js')
+    }
+
     echo """Karma configuration file path:  ${filesKarmaConfJs[0].path} """
     def karmaConfJSFile = readFile file: "${filesKarmaConfJs[0].path}"
 
