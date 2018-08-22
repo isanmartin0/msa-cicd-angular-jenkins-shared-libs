@@ -18,6 +18,11 @@ def call(body) {
 
     echo "Building unit test"
 
+    def karmaConfJS = readFile file: 'karma.conf.js'
+
+    echo "karma.conf.js content:\n" +
+            "${karmaConfJS}"
+
     /***********************************************************
      ************* BUILD PRODUCTION PARAMETERS *****************
      ***********************************************************/
@@ -39,6 +44,8 @@ def call(body) {
 
     echo "useUnitTestingFlags: ${useUnitTestingFlags}"
     echo "unitTestingFlags: ${unitTestingFlags}"
+
+
 
     if (installGloballyAngularCli) {
         sh "ng test ${unitTestingFlags}"
