@@ -135,6 +135,7 @@ def call(body) {
             echo "${check_nginx_version_script}"
             def check_nginx_version_script_output = sh(script: "${check_nginx_version_script}", returnStdout: true).toString().trim()
             echo "${check_nginx_version_script_output}"
+            echo "The NGINX version of the build configuration is the same that parameter"
         } catch (exc) {
             echo 'The NGINX version doesn\'t match. Patch the buildconfig with the parameter\'s NGINX version'
             def exc_message = exc.message
