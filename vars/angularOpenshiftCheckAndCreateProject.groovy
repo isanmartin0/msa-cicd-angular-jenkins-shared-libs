@@ -126,8 +126,10 @@ def call(body) {
         try {
             echo 'Get template NGINX version ...'
             check_nginx_version_script = $/eval "oc describe bc'/'${
+                project
+            } -n ${
                 projectName
-            } dist.tarball | grep 'nginx:${
+            }    | grep 'nginx:${
                 config.nginxVersion
             }'"/$
             echo "${check_nginx_version_script}"
