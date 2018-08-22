@@ -142,7 +142,7 @@ def call(body) {
             echo "${exc_message}"
 
             try {
-                sh "oc patch buildconfig -p '{\"spec\":{\"strategy\":{\"sourceStrategy\":{\"from\":{\"name\":\"xxnginx:${config.nginxVersion}\"}}}}}' ${project} -n ${projectName}"
+                sh "oc patch buildconfig -p '{\"spec\":{\"strategy\":{\"sourceStrategy\":{\"from\":{\"xxname\":\"nginx:${config.nginxVersion}\"}}}}}' ${project} -n ${projectName}"
             } catch (innerExc) {
                 echo 'There is an error on doing patch of nginx version.'
                 def innerExc_message = innerExc.message
