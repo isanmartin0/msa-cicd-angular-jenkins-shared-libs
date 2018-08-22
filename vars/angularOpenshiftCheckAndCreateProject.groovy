@@ -42,6 +42,7 @@ def call(body) {
     echo "project: ${project}"
     echo "projectName: ${projectName}"
 
+    //Remove last /
     if (buildOutputPath.endsWith("/")) {
         buildOutputPath = buildOutputPath[0..-2]
     }
@@ -142,7 +143,7 @@ def call(body) {
             echo "${exc_message}"
 
             try {
-                sh "oc patch buildconfig -p '{\"spec\":{\"strategy\":{\"sourceStrategy\":{\"from\":{\"xxname\":\"nginx:${config.nginxVersion}\"}}}}}' ${project} -n ${projectName}"
+                sh "oc patch buildconfig -p '{\"spec\":{\"strategy\":{\"sourceStrategy\":{\"from\":{\"name\":\"nginx:${config.nginxVersion}\"}}}}}' ${project} -n ${projectName}"
             } catch (innerExc) {
                 echo 'There is an error on doing patch of nginx version.'
                 def innerExc_message = innerExc.message
