@@ -52,7 +52,7 @@ def call(body) {
 
         if (filesProtractorConfJs.length == 0) {
             currentBuild.result = "FAILED"
-            throw new hudson.AbortException("protractor.conf.js is not found on path ${filesProtractorConfJs} of the project") as Throwable
+            throw new hudson.AbortException("protractor.conf.js is not found on path ${fileProtractorConfPath} of the project") as Throwable
         }
 
     } else {
