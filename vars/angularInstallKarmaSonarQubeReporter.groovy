@@ -40,10 +40,10 @@ def call(body) {
 
         if (karmaSonarQubeReporterSpecificVersion) {
             echo "Installing karma-sonarqube-reporter package version ${karmaSonarQubeReporterSpecificVersion}"
-            sh "npm i karma-sonarqube-reporter@${karmaSonarQubeReporterSpecificVersion}"
+            sh "npm i karma-sonarqube-reporter@${karmaSonarQubeReporterSpecificVersion} --save-dev"
         } else {
             echo "Installing karma-sonarqube-reporter package version latest"
-            sh "npm i karma-sonarqube-reporter"
+            sh "npm i karma-sonarqube-reporter --save-dev"
         }
     }
 
