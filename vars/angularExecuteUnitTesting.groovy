@@ -26,6 +26,7 @@ def call(body) {
     Boolean installGloballyAngularCli = config.theInstallGloballyAngularCli
     def angularCliLocalPath = config.theAngularCliLocalPath
     def filesKarmaConfJs
+    def fileKarmaConfPath = ""
 
     echo "Building unit test"
 
@@ -36,11 +37,19 @@ def call(body) {
 
     if (useUnitTestingKarmaConfigurationFileSpecificPath) {
 
-        filesKarmaConfJs = findFiles(glob: "${config.theUnitTestingKarmaConfigurationFileSpecificPath}/karma.conf.js")
+        if (config.theUnitTestingKarmaConfigurationFileSpecificPath) {
+            fileKarmaConfPath = config.theUnitTestingKarmaConfigurationFileSpecificPath + "karma.conf.js"
+        } else {
+            fileKarmaConfPath = "karma.conf.js"
+        }
+
+        echo "fileKarmaConfPath: ${fileKarmaConfPath}"
+
+        filesKarmaConfJs = findFiles(glob: "${fileKarmaConfPath}")
 
         if (filesKarmaConfJs.length == 0) {
             currentBuild.result = "FAILED"
-            throw new hudson.AbortException("Error. karma.conf.js is not found on path ${config.theUnitTestingKarmaConfigurationFileSpecificPath} of the project") as Throwable
+            throw new hudson.AbortException("karma.conf.js is not found on path ${fileKarmaConfPath} of the project") as Throwable
         }
 
     } else {
