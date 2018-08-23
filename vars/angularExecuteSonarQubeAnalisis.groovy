@@ -44,7 +44,7 @@ def call(body) {
 
         echo 'sonarQube parameters extracted from sonar-project.properties file'
 
-        withSonarQubeEnv("${theSonarQubeServer}") {
+        withSonarQubeEnv("${config.theSonarQubeServer}") {
             sh "${scannerHome}/bin/sonar-scanner -X -Dsonar.projectKey=${sonar_project_key} -Dsonar.projectName=${sonar_project_name}"
         }
 
