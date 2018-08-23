@@ -16,8 +16,14 @@ def call(body) {
             "config.theInstallGloballyAngularCli: ${config.theInstallGloballyAngularCli} \n"
 
 
+    Boolean useUnitTestingFlags = false
+    def unitTestingFlags = config.theUnitTestingDefaultFlags
+    Boolean installGloballyAngularCli = config.theInstallGloballyAngularCli
+    def angularCliLocalPath = config.theAngularCliLocalPath
+
     echo "Building unit test"
 
+    //show file karma.conf.js content
     def filesKarmaConfJs = findFiles(glob: 'karma.conf.js')
 
     if (filesKarmaConfJs.length == 0) {
@@ -35,14 +41,8 @@ def call(body) {
     echo "karma.conf.js content:\n" +
             "${karmaConfJSFile}"
 
-    /***********************************************************
-     ************* BUILD PRODUCTION PARAMETERS *****************
-     ***********************************************************/
 
-    Boolean useUnitTestingFlags = false
-    def unitTestingFlags = config.theUnitTestingDefaultFlags
-    Boolean installGloballyAngularCli = config.theInstallGloballyAngularCli
-    def angularCliLocalPath = config.theAngularCliLocalPath
+
 
     if (config.useUnitTestingFlags) {
         useUnitTestingFlags = config.useUnitTestingFlags.toBoolean()
