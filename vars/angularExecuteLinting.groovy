@@ -45,6 +45,6 @@ def call(body) {
     if (installGloballyAngularCli) {
         sh "ng lint ${lintingFlags}"
     } else {
-        sh "${angularCliLocalPath}ng int ${lintingFlags}"
+        sh "${angularCliLocalPath}ng lint ${lintingFlags}"
     }
 }
