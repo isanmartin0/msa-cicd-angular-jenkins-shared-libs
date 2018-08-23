@@ -33,7 +33,7 @@ def call(body) {
     }
 
 
-    if (useUnitTestingKarmaConfigurationFileSpecificPath) {
+    if (useE2ETestingProtractorConfigurationFileSpecificPath) {
 
         filesProtractorConfJs = findFiles(glob: "${config.theE2ETestingProtractorConfigurationFileSpecificPath}/protractor.conf.js")
 
