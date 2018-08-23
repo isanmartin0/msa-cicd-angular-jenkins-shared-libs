@@ -47,5 +47,4 @@ def call(body) {
         }
     }
 
-    return true
 }
