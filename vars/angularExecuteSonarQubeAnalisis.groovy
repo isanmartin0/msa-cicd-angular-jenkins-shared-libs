@@ -27,7 +27,7 @@ def call(body) {
     echo "Running SonarQube..."
 
     // Jenkinsfile
-    isSonarProjectFile = fileExists sonarProjectPath
+    isSonarProjectFile = fileExists config.theSonarProjectPath
     echo "isSonarProjectFile : ${isSonarProjectFile}"
 
     def sonar_project_key = packageName + "-" + branchNameHY
