@@ -24,6 +24,7 @@ def call(body) {
     Boolean installGloballyAngularCli = config.theInstallGloballyAngularCli
     def angularCliLocalPath = config.theAngularCliLocalPath
     def filesProtractorConfJs
+    def fileProtractorConfPath = ""
 
     echo "Building e2e test"
 
@@ -35,11 +36,23 @@ def call(body) {
 
     if (useE2ETestingProtractorConfigurationFileSpecificPath) {
 
-        filesProtractorConfJs = findFiles(glob: "${config.theE2ETestingProtractorConfigurationFileSpecificPath}/protractor.conf.js")
+        if (config.theE2ETestingProtractorConfigurationFileSpecificPath) {
+            if (config.theE2ETestingProtractorConfigurationFileSpecificPath.endsWith("/")) {
+                config.theE2ETestingProtractorConfigurationFileSpecificPath = config.theE2ETestingProtractorConfigurationFileSpecificPath[0..-2]
+            }
+
+            fileProtractorConfPath = config.theE2ETestingProtractorConfigurationFileSpecificPath + "/protractor.conf.js"
+        } else {
+            fileProtractorConfPath = "protractor.conf.js"
+        }
+
+        echo "fileProtractorConfPath: ${fileProtractorConfPath}"
+
+        filesProtractorConfJs = findFiles(glob: "${fileProtractorConfPath}")
 
         if (filesProtractorConfJs.length == 0) {
             currentBuild.result = "FAILED"
-            throw new hudson.AbortException("Error. protractor.conf.js is not found on path ${config.theE2ETestingProtractorConfigurationFileSpecificPath} of the project") as Throwable
+            throw new hudson.AbortException("protractor.conf.js is not found on path ${filesProtractorConfJs} of the project") as Throwable
         }
 
     } else {
@@ -52,7 +65,7 @@ def call(body) {
 
         if (filesProtractorConfJs.length == 0) {
             currentBuild.result = "FAILED"
-            throw new hudson.AbortException("Error. protractor.conf.js is not found on root directory or e2e directory of the project") as Throwable
+            throw new hudson.AbortException("protractor.conf.js is not found on root directory or e2e directory of the project") as Throwable
         }
     }
 

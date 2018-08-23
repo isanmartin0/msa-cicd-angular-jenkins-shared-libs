@@ -66,7 +66,7 @@ def call(body) {
 
         if (filesKarmaConfJs.length == 0) {
             currentBuild.result = "FAILED"
-            throw new hudson.AbortException("Error. karma.conf.js is not found on root directory or src directory of the project") as Throwable
+            throw new hudson.AbortException("karma.conf.js is not found on root directory or src directory of the project") as Throwable
         }
     }
 
