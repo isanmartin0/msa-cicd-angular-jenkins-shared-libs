@@ -23,23 +23,23 @@ def call(body) {
 
     echo "Building e2e test"
 
-    //show file karma.conf.js content
-    def filesKarmaConfJs = findFiles(glob: 'karma.conf.js')
+    //show file protractor.conf.js content
+    def filesProtractorConfJs = findFiles(glob: 'protractor.conf.js')
 
-    if (filesKarmaConfJs.length == 0) {
-        filesKarmaConfJs = findFiles(glob: 'src/karma.conf.js')
+    if (filesProtractorConfJs.length == 0) {
+        filesProtractorConfJs = findFiles(glob: 'e2e/protractor.conf.js')
     }
 
-    if (filesKarmaConfJs.length == 0) {
+    if (filesProtractorConfJs.length == 0) {
         currentBuild.result = "FAILED"
-        throw new hudson.AbortException("Error. karma.conf.js is not found on root directory or src directory of the project") as Throwable
+        throw new hudson.AbortException("Error. protractor.conf.js is not found on root directory or e2e directory of the project") as Throwable
     }
 
-    echo """Karma configuration file path:  ${filesKarmaConfJs[0].path} """
-    def karmaConfJSFile = readFile file: "${filesKarmaConfJs[0].path}"
+    echo """Protractor configuration file path:  ${filesProtractorConfJs[0].path} """
+    def protractorConfJSFile = readFile file: "${filesProtractorConfJs[0].path}"
 
-    echo "karma.conf.js content:\n" +
-            "${karmaConfJSFile}"
+    echo "protractor.conf.js content:\n" +
+            "${protractorConfJSFile}"
 
 
 
@@ -59,8 +59,8 @@ def call(body) {
 
 
     if (installGloballyAngularCli) {
-        sh "ng e2e ${unitTestingFlags}"
+        sh "ng e2e ${e2eTestingFlags}"
     } else {
-        sh "${angularCliLocalPath}ng e2e ${unitTestingFlags}"
+        sh "${angularCliLocalPath}ng e2e ${e2eTestingFlags}"
     }
 }
