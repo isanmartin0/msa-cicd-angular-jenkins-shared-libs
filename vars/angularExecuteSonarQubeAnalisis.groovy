@@ -42,8 +42,6 @@ def call(body) {
     if (isSonarProjectFile) {
         //sonar-project.properties contains properties for SonarQube
 
-        sh "ng lint --format json > report_lint.json"
-
         echo 'sonarQube parameters extracted from sonar-project.properties file'
 
         withSonarQubeEnv("${config.theSonarQubeServer}") {
