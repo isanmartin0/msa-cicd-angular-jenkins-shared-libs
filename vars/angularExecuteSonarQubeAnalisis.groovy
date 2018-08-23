@@ -30,8 +30,8 @@ def call(body) {
     isSonarProjectFile = fileExists config.theSonarProjectPath
     echo "isSonarProjectFile : ${isSonarProjectFile}"
 
-    def sonar_project_key = packageName + "-" + branchNameHY
-    def sonar_project_name = packageName + "-" + branchNameHY
+    def sonar_project_key = config.thePackageName + "-" + config.theBranchNameHY
+    def sonar_project_name = config.thePackageName + "-" + config.theBranchNameHY
 
     echo "sonar_project_key: ${sonar_project_key}"
     echo "sonar_project_name: ${sonar_project_name}"
