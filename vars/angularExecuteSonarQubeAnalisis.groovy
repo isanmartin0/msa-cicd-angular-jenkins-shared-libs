@@ -37,14 +37,14 @@ def call(body) {
     echo "sonar_project_name: ${sonar_project_name}"
 
     // requires SonarQube Scanner 3.1+
-    def scannerHome = tool "${theScannerHome}"
+    def scannerHome = tool "${config.theScannerHome}"
 
     if (isSonarProjectFile) {
         //sonar-project.properties contains properties for SonarQube
 
         echo 'sonarQube parameters extracted from sonar-project.properties file'
 
-        withSonarQubeEnv('sonarqube') {
+        withSonarQubeEnv("${theSonarQubeServer}") {
             sh "${scannerHome}/bin/sonar-scanner -X -Dsonar.projectKey=${sonar_project_key} -Dsonar.projectName=${sonar_project_name}"
         }
 
