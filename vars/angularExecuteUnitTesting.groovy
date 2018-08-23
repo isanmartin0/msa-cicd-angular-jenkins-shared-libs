@@ -38,7 +38,7 @@ def call(body) {
     if (useUnitTestingKarmaConfigurationFileSpecificPath) {
 
         if (config.theUnitTestingKarmaConfigurationFileSpecificPath) {
-            fileKarmaConfPath = config.theUnitTestingKarmaConfigurationFileSpecificPath + "karma.conf.js"
+            fileKarmaConfPath = config.theUnitTestingKarmaConfigurationFileSpecificPath + "/karma.conf.js"
         } else {
             fileKarmaConfPath = "karma.conf.js"
         }
