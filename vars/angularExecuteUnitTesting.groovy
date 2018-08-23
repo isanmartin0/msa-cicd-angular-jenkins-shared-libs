@@ -12,27 +12,49 @@ def call(body) {
             "config.useUnitTestingFlags: ${config.useUnitTestingFlags} \n" +
             "config.theUnitTestingDefaultFlags: ${config.theUnitTestingDefaultFlags} \n" +
             "config.theUnitTestingFlags: ${config.theUnitTestingFlags} \n" +
+            "config.useUnitTestingKarmaConfigurationFileSpecificPath: ${config.useUnitTestingKarmaConfigurationFileSpecificPath} \n" +
+            "config.theUnitTestingKarmaConfigurationFileSpecificPath: ${config.theUnitTestingKarmaConfigurationFileSpecificPath} \n" +
             "config.theAngularCliLocalPath: ${config.theAngularCliLocalPath} \n" +
             "config.theInstallGloballyAngularCli: ${config.theInstallGloballyAngularCli} \n"
 
 
+
+
     Boolean useUnitTestingFlags = false
+    Boolean useUnitTestingKarmaConfigurationFileSpecificPath = false
     def unitTestingFlags = config.theUnitTestingDefaultFlags
     Boolean installGloballyAngularCli = config.theInstallGloballyAngularCli
     def angularCliLocalPath = config.theAngularCliLocalPath
+    def filesKarmaConfJs
 
     echo "Building unit test"
 
     //show file karma.conf.js content
-    def filesKarmaConfJs = findFiles(glob: 'karma.conf.js')
-
-    if (filesKarmaConfJs.length == 0) {
-        filesKarmaConfJs = findFiles(glob: 'src/karma.conf.js')
+    if (config.useUnitTestingKarmaConfigurationFileSpecificPath) {
+        useUnitTestingKarmaConfigurationFileSpecificPath = config.useUnitTestingKarmaConfigurationFileSpecificPath.toBoolean()
     }
 
-    if (filesKarmaConfJs.length == 0) {
-        currentBuild.result = "FAILED"
-        throw new hudson.AbortException("Error. karma.conf.js is not found on root directory or src directory of the project") as Throwable
+    if (useUnitTestingKarmaConfigurationFileSpecificPath) {
+
+        filesKarmaConfJs = findFiles(glob: "${config.theUnitTestingKarmaConfigurationFileSpecificPath}/karma.conf.js")
+
+        if (filesKarmaConfJs.length == 0) {
+            currentBuild.result = "FAILED"
+            throw new hudson.AbortException("Error. karma.conf.js is not found on path ${config.theUnitTestingKarmaConfigurationFileSpecificPath} of the project") as Throwable
+        }
+
+    } else {
+
+        filesKarmaConfJs = findFiles(glob: 'karma.conf.js')
+
+        if (filesKarmaConfJs.length == 0) {
+            filesKarmaConfJs = findFiles(glob: 'src/karma.conf.js')
+        }
+
+        if (filesKarmaConfJs.length == 0) {
+            currentBuild.result = "FAILED"
+            throw new hudson.AbortException("Error. karma.conf.js is not found on root directory or src directory of the project") as Throwable
+        }
     }
 
     echo """Karma configuration file path:  ${filesKarmaConfJs[0].path} """
