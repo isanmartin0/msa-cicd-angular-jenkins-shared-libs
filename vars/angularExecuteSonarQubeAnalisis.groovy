@@ -18,7 +18,6 @@ def call(body) {
             "config.theSonarExclusions: ${config.theSonarExclusions} \n" +
             "config.theSonarTests: ${config.theSonarTests} \n" +
             "config.theSonarTestsInclusions: ${config.theSonarTestsInclusions} \n" +
-            "config.theSonarTSLintConfigPath: ${config.theSonarTSLintConfigPath} \n" +
             "config.theSonarTypescriptExclusions: ${config.theSonarTypescriptExclusions} \n" +
             "config.theSonarTestExecutionReportPath: ${config.theSonarTestExecutionReportPath} \n" +
             "config.theSonarCoverageReportPath: ${config.theSonarCoverageReportPath} \n"
@@ -54,7 +53,6 @@ def call(body) {
                 && config.theSonarExclusions
                 && config.theSonarTests
                 && config.theSonarTestsInclusions
-                && config.theSonarTSLintConfigPath
                 && config.theSonarTypescriptExclusions
                 && config.theSonarTestExecutionReportPath
                 && config.theSonarCoverageReportPath) {
@@ -64,7 +62,6 @@ def call(body) {
             def sonarExclusions = config.theSonarExclusions
             def sonarTests = config.theSonarTests
             def sonarTestsInclusions = config.theSonarTestsInclusions
-            def sonarTSLintConfigPath = config.theSonarTSLintConfigPath
             def sonarTypescriptExclusions = config.theSonarTypescriptExclusions
             def sonarTestExecutionReportPath = config.theSonarTestExecutionReportPath
             def sonarCoverageReportPath = config.theSonarCoverageReportPath
@@ -76,20 +73,19 @@ def call(body) {
             echo "sonarExclusions: ${sonarExclusions}"
             echo "sonarTests: ${sonarTests}"
             echo "sonarTestsInclusions: ${sonarTestsInclusions}"
-            echo "sonarTSLintConfigPath: ${sonarTSLintConfigPath}"
             echo "sonarTypescriptExclusions: ${sonarTypescriptExclusions}"
             echo "sonarTestExecutionReportPath: ${sonarTestExecutionReportPath}"
             echo "sonarCoverageReportPath: ${sonarCoverageReportPath}"
 
 
             withSonarQubeEnv("${config.theSonarQubeServer}") {
-                sh "${scannerHome}/bin/sonar-scanner -X -Dsonar.projectKey=${sonar_project_key} -Dsonar.projectName=${sonar_project_name} -Dsonar.sources=${sonarSources} -Dsonar.exclusions=${sonarExclusions} -Dsonar.tests=${sonarTests} -Dsonar.test.inclusions=${sonarTestsInclusions}  -Dsonar.ts.tslintconfigpath=${sonarTSLintConfigPath} -Dsonar.typescript.exclusions=${sonarTypescriptExclusions} -Dsonar.testExecutionReportPaths=${sonarTestExecutionReportPath} -Dsonar.typescript.lcov.reportPaths=${sonarCoverageReportPath} "
+                sh "${scannerHome}/bin/sonar-scanner -X -Dsonar.projectKey=${sonar_project_key} -Dsonar.projectName=${sonar_project_name} -Dsonar.sources=${sonarSources} -Dsonar.exclusions=${sonarExclusions} -Dsonar.tests=${sonarTests} -Dsonar.test.inclusions=${sonarTestsInclusions} -Dsonar.typescript.exclusions=${sonarTypescriptExclusions} -Dsonar.testExecutionReportPaths=${sonarTestExecutionReportPath} -Dsonar.typescript.lcov.reportPaths=${sonarCoverageReportPath} "
             }
 
         } else {
             //Failed status
             currentBuild.result = NodejsConstants.FAILURE_BUILD_RESULT
-            throw new hudson.AbortException("A mandatory sonarQube parameter has not found. A sonar-project.properties OR sonarQube pipeline parameters are mandatory. The mandatory properties on sonar-project.properties are sonar.sources, sonar.exclusions, sonar.tests, sonar.test.inclusions, sonar.ts.tslintconfigpath, sonar.typescript.exclusions, sonar.typescript.lcov.reportPaths and sonar.testExecutionReportPaths. The mandatory params.testing.predeploy.sonarQubeAnalisis parameters of pipeline are: sonarSources, sonarExclusions, sonarTests, sonarTestInclusions, sonarTSTSLintConfigPath, sonarTypescriptExclusions, sonarTestExecutionReportPath and sonarCoverageReportPath")
+            throw new hudson.AbortException("A mandatory sonarQube parameter has not found. A sonar-project.properties OR sonarQube pipeline parameters are mandatory. The mandatory properties on sonar-project.properties are sonar.sources, sonar.exclusions, sonar.tests, sonar.test.inclusions, sonar.typescript.exclusions, sonar.typescript.lcov.reportPaths and sonar.testExecutionReportPaths. The mandatory params.testing.predeploy.sonarQubeAnalisis parameters of pipeline are: sonarSources, sonarExclusions, sonarTests, sonarTestInclusions, sonarTypescriptExclusions, sonarTestExecutionReportPath and sonarCoverageReportPath")
 
         }
 
