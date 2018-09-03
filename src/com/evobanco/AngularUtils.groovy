@@ -10,15 +10,15 @@ def getBranchType(String branchName) {
     def master_pattern = "master"
 
     if (branchName ==~ dev_pattern) {
-        return NodejsConstants.BRANCH_TYPE_DEVELOP
+        return AngularConstants.BRANCH_TYPE_DEVELOP
     } else if (branchName ==~ release_pattern) {
-        return NodejsConstants.BRANCH_TYPE_RELEASE
+        return AngularConstants.BRANCH_TYPE_RELEASE
     } else if (branchName ==~ master_pattern) {
-        return NodejsConstants.BRANCH_TYPE_MASTER
+        return AngularConstants.BRANCH_TYPE_MASTER
     } else if (branchName ==~ feature_pattern) {
-        return NodejsConstants.BRANCH_TYPE_FEATURE
+        return AngularConstants.BRANCH_TYPE_FEATURE
     } else if (branchName ==~ hotfix_pattern) {
-        return NodejsConstants.BRANCH_TYPE_HOTFIX
+        return AngularConstants.BRANCH_TYPE_HOTFIX
     } else {
         return null
     }
@@ -179,11 +179,11 @@ def getRouteHostnameWithProtocol(String routeHostname, boolean isSecuredRoute) {
 
     def routeHostNameWithProtocol = ''
     if (routeHostname != null && !"".equals(routeHostname)) {
-        if (!routeHostname.toLowerCase().startsWith(NodejsConstants.HTTP_PROTOCOL) && !routeHostname.toLowerCase().startsWith(NodejsConstants.HTTPS_PROTOCOL)) {
+        if (!routeHostname.toLowerCase().startsWith(AngularConstants.HTTP_PROTOCOL) && !routeHostname.toLowerCase().startsWith(AngularConstants.HTTPS_PROTOCOL)) {
             if (isSecuredRoute) {
-                routeHostNameWithProtocol = NodejsConstants.HTTPS_PROTOCOL + routeHostname
+                routeHostNameWithProtocol = AngularConstants.HTTPS_PROTOCOL + routeHostname
             } else {
-                routeHostNameWithProtocol = NodejsConstants.HTTP_PROTOCOL + routeHostname
+                routeHostNameWithProtocol = AngularConstants.HTTP_PROTOCOL + routeHostname
             }
         } else {
             routeHostNameWithProtocol = routeHostname

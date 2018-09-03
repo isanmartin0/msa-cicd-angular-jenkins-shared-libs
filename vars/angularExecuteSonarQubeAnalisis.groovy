@@ -1,4 +1,5 @@
 #!/usr/bin/groovy
+import com.evobanco.AngularConstants
 
 def call(body) {
     def config = [:]
@@ -84,7 +85,7 @@ def call(body) {
 
         } else {
             //Failed status
-            currentBuild.result = NodejsConstants.FAILURE_BUILD_RESULT
+            currentBuild.result = AngularConstants.FAILURE_BUILD_RESULT
             throw new hudson.AbortException("A mandatory sonarQube parameter has not found. A sonar-project.properties OR sonarQube pipeline parameters are mandatory. The mandatory properties on sonar-project.properties are sonar.sources, sonar.exclusions, sonar.tests, sonar.test.inclusions, sonar.typescript.exclusions, sonar.typescript.lcov.reportPaths and sonar.testExecutionReportPaths. The mandatory params.testing.predeploy.sonarQubeAnalisis parameters of pipeline are: sonarSources, sonarExclusions, sonarTests, sonarTestInclusions, sonarTypescriptExclusions, sonarTestExecutionReportPath and sonarCoverageReportPath")
 
         }
