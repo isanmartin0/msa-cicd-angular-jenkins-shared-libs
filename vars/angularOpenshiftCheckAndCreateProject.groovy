@@ -139,13 +139,26 @@ def call(body) {
             echo "The ${AngularConstants.BUILD_OUTPUT_PATH_ENVIRONMENT_VARIABLE} environment variable on bc/${project} -n ${projectName} cannot be removed"
         }
 
+        //ARTIFACTORY_REPO
+        try {
+            //Remove ARTIFACTORY_REPO environment variable created by template
+            echo "Removing ARTIFACTORY_REPO environment variable"
+            sh "oc env bc/${project} ${AngularConstants.ARTIFACTORY_REPO_ENVIRONMENT_VARIABLE}- -n ${projectName}"
+        } catch (err) {
+            echo "The ${AngularConstants.ARTIFACTORY_REPO_ENVIRONMENT_VARIABLE} environment variable on bc/${project} -n ${projectName} cannot be removed"
+        }
+
         //Adding environment variables new values
         echo "Adding next environment variables on bc/${project}: \n" +
                 "${AngularConstants.ANGULAR_PACKAGE_NAME_ENVIRONMENT_VARIABLE}=${config.package_name} \n" +
                 "${AngularConstants.ANGULAR_PACKAGE_TARBALL_ENVIRONMENT_VARIABLE}=${config.package_tarball} \n" +
                 "${AngularConstants.BUILD_OUTPUT_PATH_ENVIRONMENT_VARIABLE}=${buildOutputPath} \n" +
+                "${AngularConstants.ARTIFACTORY_REPO_ENVIRONMENT_VARIABLE}=${config.artifactoryRepo} \n"
 
-        sh "oc env bc/${project} ${AngularConstants.ANGULAR_PACKAGE_NAME_ENVIRONMENT_VARIABLE}=\"${config.package_name}\" ${AngularConstants.ANGULAR_PACKAGE_TARBALL_ENVIRONMENT_VARIABLE}=\"${config.package_tarball}\" ${AngularConstants.BUILD_OUTPUT_PATH_ENVIRONMENT_VARIABLE}=\"${buildOutputPath}\" --overwrite -n ${projectName}"
+        sh "oc env bc/${project} ${AngularConstants.ANGULAR_PACKAGE_NAME_ENVIRONMENT_VARIABLE}=\"${config.package_name}\" " +
+                "${AngularConstants.ANGULAR_PACKAGE_TARBALL_ENVIRONMENT_VARIABLE}=\"${config.package_tarball}\" " +
+                "${AngularConstants.BUILD_OUTPUT_PATH_ENVIRONMENT_VARIABLE}=\"${buildOutputPath}\" " +
+                "${AngularConstants.ARTIFACTORY_REPO_ENVIRONMENT_VARIABLE}=\"${config.artifactoryRepo}\" --overwrite -n ${projectName}"
 
 
         //Check that NGINX version of the build configuration matches with nginx version of the parameter
