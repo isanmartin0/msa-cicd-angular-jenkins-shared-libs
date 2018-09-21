@@ -9,40 +9,60 @@ def call(body) {
 
     echo "angularBuildAngularApplication global variable parameters\n" +
             "---------------------------------------------------------\n" +
-            "config.useBuildProdFlags: ${config.useBuildProdFlags} \n" +
-            "config.theBuildProdDefaultFlags: ${config.theBuildProdDefaultFlags} \n" +
-            "config.theBuildProdFlags: ${config.theBuildProdFlags} \n" +
+            "config.theIsProdFlag: ${config.theIsProdFlag} \n" +
+            "config.theBuildEnvirnomentFlag: ${config.theBuildEnvirnomentFlag} \n" +
+            "config.theBuildEnvironment: ${config.theBuildEnvironment} \n" +
+            "config.useBuildFlags: ${config.useBuildFlags} \n" +
+            "config.theBuildDefaultFlags: ${config.theBuildDefaultFlags} \n" +
+            "config.theBuildFlags: ${config.theBuildFlags} \n" +
             "config.theAngularCliLocalPath: ${config.theAngularCliLocalPath} \n" +
             "config.theInstallGloballyAngularCli: ${config.theInstallGloballyAngularCli} \n"
 
 
     echo "Building angular application"
 
-    /***********************************************************
-     ************* BUILD PRODUCTION PARAMETERS *****************
-     ***********************************************************/
+    /************************************************
+     ************* BUILD PARAMETERS *****************
+     ************************************************/
 
-    Boolean useBuildProdFlags = false
-    def buildProdFlags = config.theBuildProdDefaultFlags
+    Boolean withProdFlag = false
+    def withProdFlagStr = ''
+    def buildEnvironmentFlag = config.theBuildEnvirnomentFlag
+    def buildEnvironment = config.theBuildEnvironment
+    def buildEnvironmentStr = ''
+    Boolean useBuildFlags = false
+    def buildFlags = config.theBuildDefaultFlags
     Boolean installGloballyAngularCli = config.theInstallGloballyAngularCli
     def angularCliLocalPath = config.theAngularCliLocalPath
 
-    if (config.useBuildProdFlags) {
-        useBuildProdFlags = config.useBuildProdFlags.toBoolean()
+    if (config.theIsProdFlag) {
+        withProdFlag = config.theIsProdFlag.toBoolean()
     }
 
-    if (useBuildProdFlags) {
-        buildProdFlags = config.theBuildProdFlags
+    if (withProdFlag) {
+        withProdFlagStr = '--prod'
+    }
+
+    buildEnvironmentStr = "${buildEnvironmentFlag}${buildEnvironment}"
+
+    if (config.useBuildFlags) {
+        useBuildFlags = config.useBuildFlags.toBoolean()
+    }
+
+    if (useBuildFlags) {
+        buildFlags = config.theBuildFlags
     } else {
-        echo "Build prod parameters default: ${buildProdFlags}"
+        echo "Build parameters default: ${buildFlags}"
     }
 
-    echo "useBuildProdFlags: ${useBuildProdFlags}"
-    echo "buildProdFlags: ${buildProdFlags}"
+    echo "withProdFlagStr: ${withProdFlagStr}"
+    echo "buildEnvironmentStr: ${buildEnvironmentStr}"
+    echo "useBuildFlags: ${useBuildFlags}"
+    echo "buildFlags: ${buildFlags}"
 
     if (installGloballyAngularCli) {
-        sh "ng build --prod ${buildProdFlags}"
+        sh "ng build ${withProdFlagStr} ${buildEnvironmentStr} ${buildFlags}"
     } else {
-        sh "${angularCliLocalPath}ng build --prod ${buildProdFlags}"
+        sh "${angularCliLocalPath}ng build ${withProdFlagStr} ${buildEnvironmentStr} ${buildFlags}"
     }
 }
