@@ -111,6 +111,26 @@ def call(body) {
         echo "The Openshift project ${projectName} exists."
 
         //Set environment build config variables (parameters value may overwrite template values
+
+        //ANGULAR_PACKAGE_NAME
+        try {
+            //Remove ANGULAR_PACKAGE_NAME environment variable created by template
+            echo "Removing ANGULAR_PACKAGE_NAME environment variable"
+            sh "oc env bc/${project} ${AngularConstants.ANGULAR_PACKAGE_NAME_ENVIRONMENT_VARIABLE}- -n ${projectName}"
+        } catch (err) {
+            echo "The ${AngularConstants.ANGULAR_PACKAGE_NAME_ENVIRONMENT_VARIABLE} environment variable on bc/${project} -n ${projectName} cannot be removed"
+        }
+
+        //ANGULAR_PACKAGE_TARBALL
+        try {
+            //Remove ANGULAR_PACKAGE_TARBALL environment variable created by template
+            echo "Removing ANGULAR_PACKAGE_TARBALL_ENVIRONMENT_VARIABLE environment variable"
+            sh "oc env bc/${project} ${AngularConstants.ANGULAR_PACKAGE_TARBALL_ENVIRONMENT_VARIABLE}- -n ${projectName}"
+        } catch (err) {
+            echo "The ${AngularConstants.ANGULAR_PACKAGE_TARBALL_ENVIRONMENT_VARIABLE} environment variable on bc/${project} -n ${projectName} cannot be removed"
+        }
+
+        //BUILD_OUTPUT_PATH
         try {
             //Remove BUILD_OUTPUT_PATH environment variable created by template
             echo "Removing BUILD_OUTPUT_PATH environment variable"
@@ -119,8 +139,13 @@ def call(body) {
             echo "The ${AngularConstants.BUILD_OUTPUT_PATH_ENVIRONMENT_VARIABLE} environment variable on bc/${project} -n ${projectName} cannot be removed"
         }
 
-        echo "Adding ${AngularConstants.BUILD_OUTPUT_PATH_ENVIRONMENT_VARIABLE}=${buildOutputPath} environment variable on bc/${project}"
-        sh "oc env bc/${project} ${AngularConstants.BUILD_OUTPUT_PATH_ENVIRONMENT_VARIABLE}=\"${buildOutputPath}\" -n ${projectName}"
+        //Adding environment variables new values
+        echo "Adding next environment variables on bc/${project}: \n" +
+                "${AngularConstants.ANGULAR_PACKAGE_NAME_ENVIRONMENT_VARIABLE}=${config.package_name} \n" +
+                "${AngularConstants.ANGULAR_PACKAGE_TARBALL_ENVIRONMENT_VARIABLE}=${config.package_tarball} \n" +
+                "${AngularConstants.BUILD_OUTPUT_PATH_ENVIRONMENT_VARIABLE}=${buildOutputPath} \n" +
+
+        sh "oc env bc/${project} ${AngularConstants.ANGULAR_PACKAGE_NAME_ENVIRONMENT_VARIABLE}=\"${config.package_name}\" ${AngularConstants.ANGULAR_PACKAGE_TARBALL_ENVIRONMENT_VARIABLE}=\"${config.package_tarball}\" ${AngularConstants.BUILD_OUTPUT_PATH_ENVIRONMENT_VARIABLE}=\"${buildOutputPath}\" --overwrite -n ${projectName}"
 
 
         //Check that NGINX version of the build configuration matches with nginx version of the parameter
