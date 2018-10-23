@@ -91,10 +91,10 @@ def call(body) {
 
     echo "useE2ETestingFlags: ${useE2ETestingFlags}"
     echo "e2eTestingFlags: ${e2eTestingFlags}"
-
+/*
     deploy = input message: 'Waiting for user approval',
             parameters: [choice(name: 'Continue with e2e test?', choices: 'No\nYes', description: 'Choose "Yes" if you want to deploy this build')]
-
+*/
     if (installGloballyAngularCli) {
         sh "ng e2e ${e2eTestingFlags}"
     } else {
