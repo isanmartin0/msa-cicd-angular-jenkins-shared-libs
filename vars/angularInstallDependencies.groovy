@@ -36,12 +36,6 @@ def call(body) {
     }
 
     echo 'Building dependencies...'
+    sh 'npm i'
 
-    try {
-        sh 'npm i'
-    } catch (exc) {
-        deploy = input message: 'Waiting for user approval',
-                parameters: [choice(name: 'Continue with Install?', choices: 'No\nYes', description: 'Choose "Yes" if you want to deploy this build')]
-
-    }
 }
