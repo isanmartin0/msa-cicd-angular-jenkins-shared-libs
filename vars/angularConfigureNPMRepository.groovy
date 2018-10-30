@@ -15,7 +15,7 @@ def call(body) {
     def angularNPMRepositoryURL = config.theAngularNPMRepositoryURL
 
     echo 'Setting Artifactory NPM registry'
-    //sh "npm config set registry ${angularNPMRepositoryURL} "
+    sh "npm config set registry ${angularNPMRepositoryURL} "
 
     sh "npm config get registry"
 
